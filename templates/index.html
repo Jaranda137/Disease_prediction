@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Disease Prediction</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@700&family=Belanosima&family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://www.imghost.net/ib/toA5Byh8VEDKzdt_1688996765.jpg">
+        <style>
+            body {
+                background-image: linear-gradient(to bottom left, rgb(255, 255, 255), rgb(142, 228, 231));
+        }
+        #bc_info, #db_info, #hep_info, #par_info, #hcc_info {
+            display: none;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 800px) {
+                font-size: 10px;
+                font-family: 'Belanosima', sans-serif;
+            }
+            }
+        #tablaDatos, #tablaDatosdb, #tablaDatoshep, #tablaDatospar, #tablaDatoshcc {
+            display: none;
+            }
+        
+        .center-image {
+            width: 100vw; 
+            height: auto; 
+            
+            display: block; 
+            @media screen and (max-width: 767px) {
+                width: 100vw;
+                margin: 10px auto; 
+            }
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .text-overlay {
+            font-family: 'Belanosima', sans-serif;
+            display: flex; 
+            flex-direction: column;
+            position: absolute;
+            top: 200px;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            padding: 10px;
+            text-align: left;
+            width: 100%; /* Ancho deseado para el título */
+            max-width: 800px; /* Máximo ancho para el título */
+            font-size: 100px;
+            margin-left: 100px;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                display: flex; 
+                flex-direction: column;
+                position: absolute;
+                top: 10px;
+                left: 5%;
+                transform: translate(-10%, -10%);
+                color: #ffffff;
+                padding: 20px;
+                text-align: left;
+                margin-left: 11px;
+                width: 100%; /* Ancho deseado para el título */
+                max-width: 500px; /* Máximo ancho para el título */
+                font-size: 20px;
+            }
+        }
+        .text-overlay1 {
+            font-family: 'Belanosima', sans-serif;
+            display: flex; 
+            flex-direction: column;
+            position: absolute;
+            top: 400px;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            color: rgb(58, 255, 239);
+            padding: 10px;
+            text-align: left;
+            width: 100%; /* Ancho deseado para el título */
+            max-width: 500px; /* Máximo ancho para el título */
+            font-size: 28px;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                display: flex; 
+                flex-direction: column;
+                position: absolute;
+                top: 50px;
+                left: 5%;
+                transform: translate(-10%, -10%);
+                color:rgb(58, 255, 239);
+                padding: 10px;
+                text-align: left;
+                width: 50%; /* Ancho deseado para el título */
+                max-width: 500px; /* Máximo ancho para el título */
+                font-size: 12px;
+            }
+        }
+        .text-overlay2 {
+            font-family: 'Belanosima', sans-serif;
+            display: flex; 
+            flex-direction: column;
+            position: absolute;
+            top: 600px;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5),
+                 0 0 20px rgba(0, 0, 0, 0.5),
+                 0 0 30px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            text-align: left;
+            width: 80%; /* Ancho deseado para el título */
+            max-width: 500px; /* Máximo ancho para el título */
+            font-size: 20px;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                display: flex; 
+                flex-direction: column;
+                position: absolute;
+                top: 150px;
+                left: 5%;
+                transform: translate(-10%, -10%);
+                color: #ff0000;
+                padding: 10px;
+                text-align: left;
+                width: 50%; /* Ancho deseado para el título */
+                max-width: 500px; /* Máximo ancho para el título */
+                font-size: 10px;
+            }
+        }
+        .tabla_bc {
+            background-image: linear-gradient(to bottom right,rgb(196, 79, 161), rgb(109, 75, 124));
+            background-repeat: no-repeat;
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 100%;
+            min-height: 100%;
+            line-height: 1.5;
+            padding: 2.5em 0;
+            @media screen and (max-width: 767px) {
+                background-color: rgb(117, 75, 158);
+                background-repeat: no-repeat;
+                color: #ffffff;
+                font-family: 'Lato', sans-serif;
+                font-size: 12px;
+                min-height: 100%;
+                line-height: 1.5;
+                padding: 2.5em 0;
+            }
+        }
+        .tabla_bc_input {
+            background-image: linear-gradient(to bottom right, rgb(196, 79, 161), rgb(109, 75, 124));
+            background-repeat: no-repeat;
+            color: #7b539c;
+            font-family: 'Lato', sans-serif;
+            font-size: 100%;
+            min-height: 100%;
+            line-height: 1.5;
+            padding: 2.5em 0;
+            @media screen and (max-width: 767px) {
+                background-color: rgb(117, 75, 158);
+                background-repeat: no-repeat;
+                color: #000000;
+                font-family: 'Orbitron', sans-serif;
+                font-size: 12px;
+                min-height: 100%;
+                line-height: 1.5;
+                padding: 2.5em 0;
+            }
+        }
+        
+        #info {
+            background-color: #7a4891;
+            padding: 10px;
+            font-family: 'Belanosima', sans-serif;
+            color: #ffffff;
+        }
+        #info1 {
+            background-color: #7a4891;
+            padding: 10px;
+            font-family: 'Belanosima', sans-serif;
+            color: #ffffff;
+        }
+        #info2 {
+            background-color: #7a4891;
+            padding: 10px;
+            font-family: 'Belanosima', sans-serif;
+            color: #ffffff;
+            @media screen and (max-width: 767px) {
+                font-size: 10px;
+            }
+        }
+        #pie_bc {
+            font-size: 10px;
+        }
+        .tablaenfermedad {
+            @media screen and (max-width: 767px) {
+                overflow-x: none;
+            }
+        }
+        #disease_selection {
+            color: #53b4cc;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 20px;
+            }
+        }
+        #disease_selection1 {
+            color: rgb(196, 79, 161);
+            font-family: 'Belanosima', sans-serif;
+            display: none;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 20px;
+            }
+        }
+        #disease {
+            color: #16776f;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 20px;
+            }
+        }
+        #enfermedad {
+            color: #000000;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 15px;
+            }
+        }
+        #algorithm_selection {
+            color: #5376eb;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 20px;
+            }
+        }
+        #algoritmo {
+            color: #000000;
+            margin-bottom: 50px;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 15px;
+
+            }
+        }
+        #algorithm1 {
+            color: #123dc9;
+            font-family: 'Belanosima', sans-serif;
+            @media screen and (max-width: 767px) {
+                font-family: 'Belanosima', sans-serif;
+                font-size: 20px;
+            }
+        }
+        #img_info {
+            max-width: 100%;
+        }
+        #warning {
+            background-color: rgba(247, 247, 33, 0.856);
+            @media screen and (max-width: 767px) {
+                font-size: 11px;
+            }
+        }
+        #predict {
+            margin-bottom: 30px;
+            background-color: rgb(109, 75, 124);
+            color: #fff;
+            display: none;
+        }
+        #clean_tables {
+            margin-bottom: 30px;
+            background-color:rgba(0, 255, 13, 0.3);
+            color: #000000;
+        }
+        #about {
+            @media screen and (max-width: 767px) {
+                font-size: 10px;
+            }
+        }
+        #info1 {
+            display: none;
+            @media screen and (max-width: 767px) {
+                font-size: 10px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-center py-3" id="top">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo1()">Info</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo2()">Help</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="toggleInfo()">About</a>
+                <div id="info" style="display: none;" class="container text-center">
+                    <!-- Contenido de la pestaña de información -->
+                    <p id = "about">This website is developed by me, Javier Aranda, a 16 year-old student. You can contact me with this address: @javilonic06@gmail.com</p>
+                </div>
+                </li>
+            </ul>
+            <div id="info1" style="display: none;" class="container text-center">
+                <!-- Contenido de la pestaña de información -->
+                <p>On this website you can get a diagnostic of a total of 5 diseases, breast cancer, diabetes, hepatitis, parkinson and HCC (hepatocellular carcinoma). This diagnostic is done using AI supervised learning algorithms, which can also be chosen. These algorithms use the data proporcioned in the table, and they try to use the patterns seen in the datasets on which they were trained to make a diagnostic of 0 (negative) or 1 (positive).</p>
+            </div>
+            <div id="info2" style="display: none;" class="container text-center">
+                <!-- Contenido de la pestaña de información -->
+                <p>First of all you need to choose the disease of which you want to make a diagnosis. After that, choose the algorithm that will make the diagnosis, we highly recommend using the algorithm with better performance. Then hit the button predict to see the results. In case of having so much data stored press the button clean tables.</p>
+            </div>
+        </header>
+    </div>
+    <div class="image-container">
+        <img src="https://www.imghost.net/ib/Tb0E5kAiozLgdM7_1688921066.jpg" alt="Imagen" class="center-image">
+        <div>
+            <h1 class="text-overlay">Disease Prediction</h1>
+            <h2 class="text-overlay1">AI supervised algorithms that make a diagnostic of 5 different total diseases, including
+                Breast Cancer,
+                Diabetes,
+                Hepatitis,
+                Parkinson and
+                Hepatocellular Carcinoma
+            </h2>
+            <h2 class="text-overlay2">This website has only experimental purposes, please consider consulting a doctor before drawing conclusions</h2>
+          </div>
+        
+    </div>
+    <form method="POST" action="/predict" enctype="multipart/form-data" class="col align-self-start" id="body1">
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-6">
+                <div> 
+                  <h2 id = "disease_selection">Choose the disease that you want to detect</h2>
+                </div>
+                <label for="enfermedad" id = "disease">Disease:</label>
+                <select id="enfermedad" name="enfermedad" onchange="mostrarTabla(); mostrarInfo();">
+                  <option value="breast_cancer">Breast Cancer</option>
+                  <option value="diabetes">Diabetes</option>
+                  <option value="hepatitis">Hepatitis</option>
+                  <option value="parkinson">Parkinson</option>
+                  <option value="HCC">Hepatocellular Carcinoma (HCC)</option>
+                </select>
+              </div>
+              <div id = "bc_info" class="col-lg-6">
+                <p>Breast cancer is a disease that shows up when the cells in the breast start to grow out of control. There are a few types of this disease, which will depend on the cells in the breast that turn into cancer. 
+                    The breast is composed of different parts, including the lobules, which are the glands that can produce milk; the ducts, which carry the milk to the nipple; and connective tissue, which holds and surrounds everything together. 
+            </p>
+                <img id = "img_info"  src="https://i.ibb.co/LzP47MF/Breast-DCIS-histopathology-1.jpg" alt="Imagen_bc">
+                <p id= "pie_bc">Growth of malignant cells in breast tissue</p>
+                <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/15/breast+cancer+wisconsin+original">Breast Cancer Wisconsin (Diagnostic) Data Set</a> from the UCI Machine Learning repository.</p>
+                <p>The algorithm that showed better performance on this dataset was Random Forest</p>
+              </div>
+              <div id = "db_info" class="col-lg-6">
+                <p>Diabetes is a long-lasting and chronic health condition that affects how your body transforms food into energy. Normally, your body breaks down the food that you eat into glucose and releases it into your bloodstream. When your blood glucose level is high, it signals your pancreas to release insulin, which allows your blood to let the blood glucose into your body’s cells for use as energy.
+                    The problem with diabetes is that your body doesn’t produce enough insulin or doesn’t use it as well as it should. Consequently, too much blood sugar (glucose) stays in your bloodstream, which can cause serious health problems such as heart disease and vision loss, among others. 
+                    </p>
+                <img id = "img_info" src="https://i.ibb.co/brfxVsT/Type-2-Diabetes-Mellitus.jpg" alt="Imagen_db">
+                <p id= "pie_bc">Type 2 diabetes mellitus</p>
+                <p>The algorithms are trained on <a href="https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database">Pima Indians Diabetes Database</a> posted by UCI MACHINE LEARNING</p>
+                <p>The algorithm that showed better performance on this dataset was Logistic Regression</p>
+                </div>
+              <div id = "hep_info" class="col-lg-6">
+                <p>Hepatitis is frequently caused by an inflammation of the liver, the principal cause of this disease are normally viruses but it can also be due to other factors such as other infections, heavy alcohol use, toxins, certain medications, and autoimmune disease. Hepatitis A and E are often caused by an ingestion of contaminated water or food, hepatitis B is caused by the contact of infected blood, and other bodily fluids through sex, sharing needles or other drug-injection equipment or from mother to baby at birth. Hepatitis C is a blood-borne virus that is largely spread by sharing needles or other drug injection equipment, and hepatitis D, which is transmitted through contact with infectious blood, occurs only among people with hepatitis B infection.
+                </p>
+                <img id = "img_info" src="https://i.ibb.co/m0KJvcJ/Alcoholic-hepatitis.jpg" alt="Imagen_hep">
+                <p id="pie_bc">Microscopy of the liver showing fatty changes, necrosis, and Mallory's bodies.</p>
+                <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/46/hepatitis">Hepatitis Dataset</a> from the UCI Machine Learning repository.</p>
+                <p>The algorithm that showed better performance on this dataset was Logistic Regression</p>
+                </div>
+              <div id = "par_info" class="col-lg-6">
+                <p>Parkinson's disease (PD) is a progressive neurological disorder that affects movement. It is caused by the degeneration of dopamine-producing neurons in a specific area of the brain. Some of the symptoms of PD include tremors, stiffness, and difficulty with balance and coordination. The disease is chronic, meaning it is ongoing and has no cure, but it can be managed with medication and other therapies. LDP stands for "Levodopa-Responsive Parkinsonism," which refers to a subtype of PD that responds well to treatment with the medication levodopa.</p>
+                <img id = "img_info" src="https://i.ibb.co/93fPjY0/1024px-PET-image.jpg" alt="Imagen_par">
+                <p id="pie_bc">Fluorodeoxyglucose (18F) positron emission tomography (FDG): warmer areas reflect increased glucose uptake; and may reveal impaired dopaminergic activity in the basal ganglia and facilitate diagnosis</p>
+                <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/174/parkinsons">Parkinson's Dataset</a> from the UCI Machine Learning repository.</p>
+                <p>The algorithm that showed better performance on this dataset was Gradient Boosted tree</p>
+                </div>
+              <div id = "hcc_info" class="col-lg-6">
+                <p>Hepatocellular carcinoma, or liver cancer, consists of more than 90% of the primary tumor of the liver, it is the fifth most common cause of cancer worldwide, and the second leading cause of cancer death lung cancer in men. About 85% of the people diagnosed with cirrhosis have this disease. Some significant risk factors of hepatocellular carcinoma include viral hepatitis and alcoholic liver disease.
+
+                    It is normally detected during a screening for an underlying disease. Some of the symptoms include: Abdominal discomfort or distention (enlargement), Weight loss, Jaundice (yellowing of the skin and whites of the eyes), Gastrointestinal hemorrhage (bleeding), Nausea or vomiting, Persistent itching and Fever.
+                    </p>
+                <img id = "img_info" src="https://i.ibb.co/x3sVtqf/Hepatocellular-carcinoma-1.jpg" alt="Imagen_hcc">
+                <p id="pie_bc">Hepatocellular carcinoma in an individual who tested positive</p>
+                <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/423/hcc+survival">HCC Survival Dataset</a> from the UCI Machine Learning repository.</p>
+                <p>The algorithm that showed better performance on this dataset was Gradient Boosted tree</p>
+                </div>
+            </div>
+          </div>
+        
+        <br><br>
+        <br><br>
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="algorithm"> 
+                    <h2 id = "algorithm_selection">Choose the algorithm that you want to use</h2>
+                </div>
+                    <label for="algoritmo" id = "algorithm1">Algorithm:</label>
+                    <select id="algoritmo" name="algoritmo">
+                        <option value="algoritmo1">Logistic Regression</option>
+                        <option value="algoritmo2">Decision Tree</option>
+                        <option value="algoritmo3">K-nearest neighbor</option>
+                        <option value="algoritmo4">Support Vector Machine</option>
+                        <option value="algoritmo5">Naive Bayes</option>
+                        <option value="algoritmo6">Gradient Boosted Tree</option>
+                        <option value="algoritmo7">Random forest</option>
+                        <option value="algoritmo8">Artificial Neural Network</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h2 id="disease_selection1" class = "container text-center">This is the table you have to fill. In case of missing value, put a 0 instead.</h2>
+        <div id="tablaEnfermedad" class="container" name="tabla" style="overflow-x: auto;">
+                <table id="tablaDatos">
+                    <thead>
+                        <tr class="tabla_bc">
+                            <th >Clump_thickness (1-10)</th>
+                            <th>uniformity_of_cell_size (1-10)</th>
+                            <th>uniformity_of_cell_shape (1-10)</th>
+                            <th>marginal_adhesion (1-10)</th>
+                            <th>single_epithelial_cell_size (1-10)</th>
+                            <th>bare_nuclei (1-10)</th>
+                            <th>bland_chromatin (1-10)</th>
+                            <th>normal_nucleoli (1-10)</th>
+                            <th>mitoses (1-10)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tabla_bc_input">
+                            <td><input type="text" id="valor0" name="valor0"></td>
+                            <td><input type="text" id="valor1" name="valor1"></td>
+                            <td><input type="text" id="valor2" name="valor2"></td>
+                            <td><input type="text" id="valor3" name="valor3"></td>
+                            <td><input type="text" id="valor4" name="valor4"></td>
+                            <td><input type="text" id="valor5" name="valor5"></td>
+                            <td><input type="text" id="valor6" name="valor6"></td>
+                            <td><input type="text" id="valor7" name="valor7"></td>
+                            <td><input type="text" id="valor8" name="valor8"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="tablaDatosdb">
+                    <thead>
+                        <tr class="tabla_bc">
+                            <th>Pregnancies (Number of times pregnant)</th>
+                            <th>Glucose (Plasma glucose concentration a 2 hours in an oral glucose tolerance test)</th>
+                            <th>BloodPressure (Diastolic blood pressure (mm Hg))</th>
+                            <th>SkinThickness (Diastolic blood pressure (mm Hg))</th>
+                            <th>Insulin (2-Hour serum insulin (mu U/ml))</th>
+                            <th>BMI (Body mass index (weight in kg/(height in m)^2))</th>
+                            <th>DiabetesPedigreeFunction</th>
+                            <th>Age (years)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tabla_bc_input">
+                            <td><input type="text" id="valor0" name="valor0_db"></td>
+                            <td><input type="text" id="valor1" name="valor1_db"></td>
+                            <td><input type="text" id="valor2" name="valor2_db"></td>
+                            <td><input type="text" id="valor3" name="valor3_db"></td>
+                            <td><input type="text" id="valor4" name="valor4_db"></td>
+                            <td><input type="text" id="valor5" name="valor5_db"></td>
+                            <td><input type="text" id="valor6" name="valor6_db"></td>
+                            <td><input type="text" id="valor7" name="valor7_db"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                    <table id="tablaDatoshep">
+                        <thead>
+                            <tr class="tabla_bc">
+                                <th>Age (10-80)</th>
+                                <th>Sex (1 if male 2 if female)</th>
+                                <th>Steroid (1 if not 2 if yes)</th>
+                                <th>Antivirals (1 if not 2 if yes)</th>
+                                <th>Fatigue (1 if not 2 if yes)</th>
+                                <th>Malaise (1 if not 2 if yes)</th>
+                                <th>Anorexia (1 if not 2 if yes)</th>
+                                <th>Liver Big (1 if not 2 if yes)</th>
+                                <th>Liver Firm (1 if not 2 if yes)</th>
+                                <th>Spleen Palpable (1 if not 2 if yes)</th>
+                                <th>Spiders (1 if not 2 if yes)</th>
+                                <th>Ascites (1 if not 2 if yes)</th>
+                                <th>Varices (1 if not 2 if yes)</th>
+                                <th>Bilirubin (0.39-4.00)</th>
+                                <th>Alk Phosphate (33-250)</th>
+                                <th>Sgot (13-500)</th>
+                                <th>Albumin (2.1-6.0)</th>
+                                <th>Protime (10-90)</th>
+                                <th>Histology (1 if not 2 if yes)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tabla_bc_input">
+                                <td><input type="text" id="valor0" name="valor0_hep"></td>
+                                <td><input type="text" id="valor1" name="valor1_hep"></td>
+                                <td><input type="text" id="valor2" name="valor2_hep"></td>
+                                <td><input type="text" id="valor3" name="valor3_hep"></td>
+                                <td><input type="text" id="valor4" name="valor4_hep"></td>
+                                <td><input type="text" id="valor5" name="valor5_hep"></td>
+                                <td><input type="text" id="valor6" name="valor6_hep"></td>
+                                <td><input type="text" id="valor7" name="valor7_hep"></td>
+                                <td><input type="text" id="valor8" name="valor8_hep"></td>
+                                <td><input type="text" id="valor9" name="valor9_hep"></td>
+                                <td><input type="text" id="valor10" name="valor10_hep"></td>
+                                <td><input type="text" id="valor11" name="valor11_hep"></td>
+                                <td><input type="text" id="valor12" name="valor12_hep"></td>
+                                <td><input type="text" id="valor13" name="valor13_hep"></td>
+                                <td><input type="text" id="valor14" name="valor14_hep"></td>
+                                <td><input type="text" id="valor15" name="valor15_hep"></td>
+                                <td><input type="text" id="valor16" name="valor16_hep"></td>
+                                <td><input type="text" id="valor17" name="valor17_hep"></td>
+                                <td><input type="text" id="valor18" name="valor18_hep"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="tablaDatospar">
+                        <thead>
+                            <tr class="tabla_bc">
+                                <th>MDVP:Fo(Hz) - Average vocal fundamental frequency</th>
+                                <th>MDVP:Fhi(Hz) - Maximum vocal fundamental frequency</th>
+                                <th>MDVP:Flo(Hz)  - Minimum vocal fundamental frequency</th>
+                                <th>MDVP:Jitter(%) - Several measure of variation in fundamental frequency</th>
+                                <th>MDVP:Jitter(Abs) - measure of variation in fundamental frequency</th>
+                                <th>MDVP:RAP - measure of variation in fundamental frequency</th>
+                                <th>MDVP:PPQ - measure of variation in fundamental frequency</th>
+                                <th>Jitter:DDP - measure of variation in fundamental frequency</th>
+                                <th>MDVP:Shimmer - measure of variation in fundamental amplitude</th>
+                                <th>MDVP:Shimmer(dB - measure of variation in fundamental amplitude)</th>
+                                <th>Shimmer:APQ3 - measure of variation in fundamental amplitude</th>
+                                <th>Shimmer:APQ5 - measure of variation in fundamental amplitude</th>
+                                <th>MDVP:APQ - measure of variation in fundamental amplitude</th>
+                                <th>Shimmer:DDA - measure of variation in fundamental amplitude</th>
+                                <th>NHR - measure of ratio of noise to tonal components in the voice</th>
+                                <th>HNR - measure of ratio of noise to tonal components in the voice</th>
+                                <th>RPDE - nonlinear dynamical complexity measure</th>
+                                <th>DFA - Signal fractal scaling exponent</th>
+                                <th>spread1 - nonlinear measure of fundamental frequency variation</th>
+                                <th>spread2 - nonlinear measure of fundamental frequency variation</th>
+                                <th>D2- nonlinear dynamical complexity measure</th>
+                                <th>PPE - nonlinear measure of fundamental frequency variation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tabla_bc_input">
+                                <td><input type="text" id="valor0" name="valor0_par"></td>
+                                <td><input type="text" id="valor1" name="valor1_par"></td>
+                                <td><input type="text" id="valor2" name="valor2_par"></td>
+                                <td><input type="text" id="valor3" name="valor3_par"></td>
+                                <td><input type="text" id="valor4" name="valor4_par"></td>
+                                <td><input type="text" id="valor5" name="valor5_par"></td>
+                                <td><input type="text" id="valor6" name="valor6_par"></td>
+                                <td><input type="text" id="valor7" name="valor7_par"></td>
+                                <td><input type="text" id="valor8" name="valor8_par"></td>
+                                <td><input type="text" id="valor9" name="valor9_par"></td>
+                                <td><input type="text" id="valor10" name="valor10_par"></td>
+                                <td><input type="text" id="valor11" name="valor11_par"></td>
+                                <td><input type="text" id="valor12" name="valor12_par"></td>
+                                <td><input type="text" id="valor13" name="valor13_par"></td>
+                                <td><input type="text" id="valor14" name="valor14_par"></td>
+                                <td><input type="text" id="valor15" name="valor15_par"></td>
+                                <td><input type="text" id="valor16" name="valor16_par"></td>
+                                <td><input type="text" id="valor17" name="valor17_par"></td>
+                                <td><input type="text" id="valor18" name="valor18_par"></td>
+                                <td><input type="text" id="valor19" name="valor19_par"></td>
+                                <td><input type="text" id="valor20" name="valor20_par"></td>
+                                <td><input type="text" id="valor21" name="valor21_par"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="tablaDatoshcc">
+                        <thead>
+                            <tr class="tabla_bc">
+                                <th>Gender (0 if male 1 if female)</th>
+                                <th>Symptoms (0 if not 1 if yes)</th>
+                                <th>Alcohol (0 if not 1 if yes)</th>
+                                <th>Hepatitis B Surface Antigen (0 if not 1 if yes)</th>
+                                <th>Hepatitis B e Antigen (0 if not 1 if yes)</th>
+                                <th>Hepatitis B Core Antibody (0 if not 1 if yes)</th>
+                                <th>Hepatitis C Virus Antibody (0 if not 1 if yes)</th>
+                                <th>Cirrhosis (0 if not 1 if yes)</th>
+                                <th>Endemic Countries (0 if not 1 if yes)</th>
+                                <th>Smoking (0 if not 1 if yes)</th>
+                                <th>Diabetes (0 if not 1 if yes)</th>
+                                <th>Obesity (0 if not 1 if yes)</th>
+                                <th>Hemochromatosis (0 if not 1 if yes)</th>
+                                <th>Arterial Hypertension (0 if not 1 if yes)</th>
+                                <th>Chronic Renal Insufficiency (0 if not 1 if yes)</th>
+                                <th>Human Immunodeficiency Virus (0 if not 1 if yes)</th>
+                                <th>Nonalcoholic Steatohepatitis (0 if not 1 if yes)</th>
+                                <th>Esophageal Varices (0 if not 1 if yes)</th>
+                                <th>Splenomegaly (0 if not 1 if yes)</th>
+                                <th>Portal Hypertension (0 if not 1 if yes)</th>
+                                <th>Portal Vein Thrombosis (0 if not 1 if yes)</th>
+                                <th>Liver Metastasis (0 if not 1 if yes)</th>
+                                <th>Radiological Hallmark (0 if not 1 if yes) </th>
+                                <th>Age at diagnosis (years)</th>
+                                <th>Grams of Alcohol per day</th>
+                                <th>Packs of cigarets per year</th>
+                                <th>Performance Status (0-4)</th>
+                                <th>Encefalopathy degree (1-3)</th>
+                                <th>Ascites degree (1-3)</th>
+                                <th>International Normalised Ratio</th>
+                                <th>Alpha-Fetoprotein (ng/mL)</th>
+                                <th>Haemoglobin (g/dL)</th>
+                                <th>Mean Corpuscular Volume(fl)</th>
+                                <th>Leukocytes(G/L)</th>
+                                <th>Platelets(G/L)</th>
+                                <th>Albumin (mg/dL)</th>
+                                <th>Total Bilirubin(mg/dL)</th>
+                                <th>Alanine transaminase (U/L)</th>
+                                <th>Aspartate transaminase (U/L)</th>
+                                <th>Gamma glutamyl transferase (U/L)</th>
+                                <th>Alkaline phosphatase (U/L)</th>
+                                <th>Total Proteins (g/dL)</th>
+                                <th>Creatinine (mg/dL)</th>
+                                <th>Number of Nodules</th>
+                                <th>Major dimension of nodule (cm)</th>
+                                <th>Direct Bilirubin (mg/dL)</th>
+                                <th>Iron	(mcg/dL)</th>
+                                <th>Oxygen Saturation (%)</th>
+                                <th>Ferritin (ng/mL)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tabla_bc_input">
+                                <td><input type="text" id="valor0" name="valor0_hcc"></td>
+                                <td><input type="text" id="valor1" name="valor1_hcc"></td>
+                                <td><input type="text" id="valor2" name="valor2_hcc"></td>
+                                <td><input type="text" id="valor3" name="valor3_hcc"></td>
+                                <td><input type="text" id="valor4" name="valor4_hcc"></td>
+                                <td><input type="text" id="valor5" name="valor5_hcc"></td>
+                                <td><input type="text" id="valor6" name="valor6_hcc"></td>
+                                <td><input type="text" id="valor7" name="valor7_hcc"></td>
+                                <td><input type="text" id="valor8" name="valor8_hcc"></td>
+                                <td><input type="text" id="valor9" name="valor9_hcc"></td>
+                                <td><input type="text" id="valor10" name="valor10_hcc"></td>
+                                <td><input type="text" id="valor11" name="valor11_hcc"></td>
+                                <td><input type="text" id="valor12" name="valor12_hcc"></td>
+                                <td><input type="text" id="valor13" name="valor13_hcc"></td>
+                                <td><input type="text" id="valor14" name="valor14_hcc"></td>
+                                <td><input type="text" id="valor15" name="valor15_hcc"></td>
+                                <td><input type="text" id="valor16" name="valor16_hcc"></td>
+                                <td><input type="text" id="valor17" name="valor17_hcc"></td>
+                                <td><input type="text" id="valor18" name="valor18_hcc"></td>
+                                <td><input type="text" id="valor19" name="valor19_hcc"></td>
+                                <td><input type="text" id="valor20" name="valor20_hcc"></td>
+                                <td><input type="text" id="valor21" name="valor21_hcc"></td>
+                                <td><input type="text" id="valor22" name="valor22_hcc"></td>
+                                <td><input type="text" id="valor23" name="valor23_hcc"></td>
+                                <td><input type="text" id="valor24" name="valor24_hcc"></td>
+                                <td><input type="text" id="valor25" name="valor25_hcc"></td>
+                                <td><input type="text" id="valor26" name="valor26_hcc"></td>
+                                <td><input type="text" id="valor27" name="valor27_hcc"></td>
+                                <td><input type="text" id="valor28" name="valor28_hcc"></td>
+                                <td><input type="text" id="valor29" name="valor29_hcc"></td>
+                                <td><input type="text" id="valor30" name="valor30_hcc"></td>
+                                <td><input type="text" id="valor31" name="valor31_hcc"></td>
+                                <td><input type="text" id="valor32" name="valor32_hcc"></td>
+                                <td><input type="text" id="valor33" name="valor33_hcc"></td>
+                                <td><input type="text" id="valor34" name="valor34_hcc"></td>
+                                <td><input type="text" id="valor35" name="valor35_hcc"></td>
+                                <td><input type="text" id="valor36" name="valor36_hcc"></td>
+                                <td><input type="text" id="valor37" name="valor37_hcc"></td>
+                                <td><input type="text" id="valor38" name="valor38_hcc"></td>
+                                <td><input type="text" id="valor39" name="valor39_hcc"></td>
+                                <td><input type="text" id="valor40" name="valor40_hcc"></td>
+                                <td><input type="text" id="valor41" name="valor41_hcc"></td>
+                                <td><input type="text" id="valor42" name="valor42_hcc"></td>
+                                <td><input type="text" id="valor43" name="valor43_hcc"></td>
+                                <td><input type="text" id="valor44" name="valor44_hcc"></td>
+                                <td><input type="text" id="valor45" name="valor45_hcc"></td>
+                                <td><input type="text" id="valor46" name="valor46_hcc"></td>
+                                <td><input type="text" id="valor47" name="valor47_hcc"></td>
+                                <td><input type="text" id="valor48" name="valor48_hcc"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+            <div class="container text-center"> 
+                <button type="submit" onsubmit="guardarDatos(event)" class=" btn " id = "predict">Predict</button>
+            </div>
+            
+        </div>        
+    </form>
+    <div class="container text-center">
+        <button class=" btn btn-dark " onclick="limpiarValores()" id = "clean_tables">Clean tables</button>
+    </div>
+    
+    <div class="p-3 mb-2  text-dark border border-danger " id = "warning">
+        <p >
+            <strong > Warning:</strong> This website is only a project and does not replace consulting a real doctor to get an accurate and reliable diagnosis. This tool provides a preliminary prediction based on machine learning algorithms, but should not be considered as professional medical advice.
+        </p>
+    </div>
+    <script>
+        function guardarDatos(event) {
+                event.preventDefault(); // Evita que se envíe el formulario por defecto
+
+                limpiarDatosAnteriores(); // Limpiar los datos de la enfermedad anterior
+
+                var formData = $('#myForm').serialize(); // Serializa los datos del formulario
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict', // Ruta de la API Flask para guardar los datos
+                    data: formData,
+                    success: function(response) {
+                        console.log('Datos guardados exitosamente');
+                    },
+                    error: function(error) {
+                        console.error('Error al guardar los datos:', error);
+                    }
+                });
+            }
+        function mostrarTabla() {
+                var seleccion = document.getElementById("enfermedad").value;
+                var tabla = document.getElementById("tablaDatos");
+                var tabla_db = document.getElementById("tablaDatosdb");
+                var tabla_hep = document.getElementById("tablaDatoshep");
+                var tabla_par = document.getElementById("tablaDatospar");
+                var tabla_hcc = document.getElementById("tablaDatoshcc");
+                var info = document.getElementById("disease_selection1");
+                var predict = document.getElementById("predict");
+                
+                
+                tabla.style.display = "none";
+                tabla_db.style.display = "none";
+                tabla_hep.style.display = "none";
+                tabla_par.style.display = "none";
+                tabla_hcc.style.display = "none";
+                info.style.display = "none";
+                predict.style.display = "none";
+
+                if (seleccion === "breast_cancer") {
+                    tabla.style.display = "table";
+                    tabla_db.style.display = "none";
+                    tabla_hep.style.display = "none";
+                    tabla_par.style.display = "none";
+                    tabla_hcc.style.display = "none";
+                    info.style.display = "table";
+                    predict.style.display = "table";
+                    
+                } else if  (seleccion === "diabetes") {
+                    tabla_db.style.display = "table";
+                    tabla.style.display = "none";
+                    tabla_hep.style.display = "none";
+                    tabla_par.style.display = "none";
+                    tabla_par.style.display = "none";
+                    info.style.display = "table";
+                    predict.style.display = "table";
+
+                } else if  (seleccion === "hepatitis") {
+                    tabla_db.style.display = "none";
+                    tabla.style.display = "none";
+                    tabla_hep.style.display = "table";
+                    tabla_par.style.display = "none";
+                    tabla_par.style.display = "none";
+                    info.style.display = "table";
+                    predict.style.display = "table";
+
+                } else if  (seleccion === "parkinson") {
+                    tabla_db.style.display = "none";
+                    tabla.style.display = "none";
+                    tabla_hep.style.display = "none";
+                    tabla_par.style.display = "table";
+                    tabla_hcc.style.display = "none";
+                    info.style.display = "table";
+                    predict.style.display = "table";
+
+                } else if  (seleccion === "HCC") {
+                    tabla_db.style.display = "none";
+                    tabla.style.display = "none";
+                    tabla_hep.style.display = "none";
+                    tabla_par.style.display = "none";
+                    tabla_hcc.style.display = "table";
+                    info.style.display = "table";
+                    predict.style.display = "table";
+
+                } else {
+                    tabla.style.display = "none";
+                    tabla_db.style.display = "none";
+                    tabla_hep.style.display = "none";
+                    tabla_par.style.display = "none";
+                    tabla_hcc.style.display = "none";
+                    info.style.display = "none";
+                    predict.style.display = "none";
+                }
+            }
+            function mostrarInfo() {
+                var enfermedad = document.getElementById("enfermedad").value;
+                var info_bc = document.getElementById("bc_info");
+                var info_db = document.getElementById("db_info");
+                var info_hep = document.getElementById("hep_info");
+                var info_par = document.getElementById("par_info");
+                var info_hcc = document.getElementById("hcc_info");
+                // Ocultar todas las secciones de información
+                info_bc.style.display = "none";
+                info_db.style.display = "none";
+                info_hep.style.display = "none";
+                info_par.style.display = "none";
+                info_hcc.style.display = "none";
+
+                // Mostrar la sección de información correspondiente a la enfermedad seleccionada
+                if (enfermedad === "breast_cancer") {
+                    info_bc.style.display = "block";
+                    info_db.style.display = "none";
+                    info_hep.style.display = "none";
+                    info_par.style.display = "none";
+                    info_hcc.style.display = "none";
+                } else if (enfermedad === "diabetes") {
+                    info_bc.style.display = "none";
+                    info_db.style.display = "block";
+                    info_hep.style.display = "none";
+                    info_par.style.display = "none";
+                    info_hcc.style.display = "none";
+                } else if (enfermedad === "hepatitis") {
+                    info_bc.style.display = "none";
+                    info_db.style.display = "none";
+                    info_hep.style.display = "block";
+                    info_par.style.display = "none";
+                    info_hcc.style.display = "none";
+                } else if (enfermedad === "parkinson") {
+                    info_bc.style.display = "none";
+                    info_db.style.display = "none";
+                    info_hep.style.display = "none";
+                    info_par.style.display = "block";
+                    info_hcc.style.display = "none";
+                } else if (enfermedad === "HCC") {
+                    info_bc.style.display = "none";
+                    info_db.style.display = "none";
+                    info_hep.style.display = "none";
+                    info_par.style.display = "none";
+                    info_hcc.style.display = "block";
+                }
+            }
+            function limpiarDatosAnteriores() {
+                var enfermedad = $('#enfermedad').val();
+                // Restablecer los campos de entrada a valores vacíos
+                if (enfermedad !== 'breast_cancer') {
+                    $('#tablaDatos').find('input[type="text"]').val('');
+                }
+                if (enfermedad !== 'diabetes') {
+                    $('#tablaDatosDiabetes').find('input[type="text"]').val('');
+                }
+                if (enfermedad !== 'hepatitis') {
+                    $('#tablaDatoshep').find('input[type="text"]').val('');
+                }
+                if (enfermedad !== 'parkinson') {
+                    $('#tablaDatospar').find('input[type="text"]').val('');
+                }
+                if (enfermedad !== 'HCC') {
+                    $('#tablaDatoshcc').find('input[type="text"]').val('');
+                }
+                // Añadir condiciones para otras enfermedades aquí si es necesario
+            }
+            function toggleInfo() {
+                var info2 = document.getElementById("info2");
+                var info1 = document.getElementById("info1");
+                var info = document.getElementById("info");
+                if (info.style.display === "none") {
+                    info.style.display = "block";
+                    info1.style.display = "none";
+                    info2.style.display = "none";
+                } else {
+                    info.style.display = "none";
+                }
+            }
+            function toggleInfo1() {
+                var info2 = document.getElementById("info2");
+                var info1 = document.getElementById("info1");
+                var info = document.getElementById("info");
+                if (info1.style.display === "none") {
+                    info1.style.display = "block";
+                    info.style.display = "none";
+                    info2.style.display = "none";
+                } else {
+                    info1.style.display = "none";
+                }
+            }
+            function toggleInfo2() {
+                var info2 = document.getElementById("info2");
+                var info1 = document.getElementById("info1");
+                var info = document.getElementById("info");
+                if (info2.style.display === "none") {
+                    info2.style.display = "block";
+                    info.style.display = "none";
+                    info1.style.display = "none";
+                } else {
+                    info2.style.display = "none";
+
+                }
+            }
+            function limpiarValores() {
+            // Obtener los elementos de las tablas
+            var tablaDatos = document.getElementById("tablaDatos");
+            var tablaDatosdb = document.getElementById("tablaDatosdb");
+            var tablaDatoshep = document.getElementById("tablaDatoshep");
+            var tablaDatospar = document.getElementById("tablaDatospar");
+            var tablaDatoshcc = document.getElementById("tablaDatoshcc");
+
+            // Obtener los elementos de input de cada tabla
+            var inputsTablaDatos = tablaDatos.getElementsByTagName("input");
+            var inputsTablaDatosdb = tablaDatosdb.getElementsByTagName("input");
+            var inputsTablaDatoshep = tablaDatoshep.getElementsByTagName("input");
+            var inputsTablaDatospar = tablaDatospar.getElementsByTagName("input");
+            var inputsTablaDatoshcc = tablaDatoshcc.getElementsByTagName("input");
+
+            // Limpiar los valores de los inputs
+            for (var i = 0; i < inputsTablaDatos.length; i++) {
+                inputsTablaDatos[i].value = "";
+            }
+
+            for (var i = 0; i < inputsTablaDatosdb.length; i++) {
+                inputsTablaDatosdb[i].value = "";
+            }
+            for (var i = 0; i < inputsTablaDatoshep.length; i++) {
+                inputsTablaDatoshep[i].value = "";
+            }
+            for (var i = 0; i < inputsTablaDatospar.length; i++) {
+                inputsTablaDatospar[i].value = "";
+            }
+            for (var i = 0; i < inputsTablaDatoshcc.length; i++) {
+                inputsTablaDatoshcc[i].value = "";
+            }
+            }
+
+    </script>
+</body>
+</html>
+
+

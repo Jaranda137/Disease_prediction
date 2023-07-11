@@ -1,2 +1,0 @@
-# Disease_prediction
-TDR
