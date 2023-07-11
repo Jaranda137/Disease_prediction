@@ -1,4 +1,5 @@
 Flask
 onnxruntime
 numpy
+joblib
 gunicorn
