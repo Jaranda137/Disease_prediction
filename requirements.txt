@@ -1,5 +1,2 @@
 Flask
-json
-onnxruntime
-numpy
 gunicorn
