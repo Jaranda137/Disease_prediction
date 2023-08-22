@@ -178,7 +178,7 @@ def guardar_datos():
   elif algoritmo == 'algoritmo5' and enfermedad == 'HCC':
     modelo_seleccionado = models['model_nb_hcc']
   elif algoritmo == 'algoritmo6' and enfermedad == 'HCC':
-    modelo_seleccionado = models['model_gb__hcc']
+    modelo_seleccionado = models['model_gb_hcc']
   elif algoritmo == 'algoritmo7' and enfermedad == 'HCC':
     modelo_seleccionado = models['model_rf_hcc']
   elif algoritmo == 'algoritmo8' and enfermedad == 'HCC':
@@ -191,10 +191,16 @@ def guardar_datos():
   valores = []
   for clave, valor in data.items():
     if clave.startswith('valor') and valor != '':
-      valor_numerico = float(valor)
-      valores.append(valor_numerico)
+      try:
+        valor_numerico = float(valor)
+        valores.append(valor_numerico)
+      except ValueError as e:
+        valor_numerico = None
+        valores = None
+        break
 
   if algoritmo == 'algoritmo8':
+    modelo_seleccionado = None
     valores = np.array(valores).astype(np.float32).reshape(1, -1)
     if enfermedad == 'breast_cancer':
       model_ann = rt.InferenceSession('models/model_ann.onnx')
@@ -206,35 +212,558 @@ def guardar_datos():
       model_ann = rt.InferenceSession('models/model_ann_par.onnx')
     elif enfermedad == 'HCC':
       model_ann = rt.InferenceSession('models/model_ann_hcc.onnx')
-    inputs = model_ann.get_inputs()
-    outputs = model_ann.get_outputs()
+    try:
+      inputs = model_ann.get_inputs()
+      outputs = model_ann.get_outputs()
 
-    # Crear el feed dict con los valores de entrada
-    feed_dict = {inputs[0].name: valores}
+      # Crear el feed dict con los valores de entrada
+      feed_dict = {inputs[0].name: valores}
 
-    # Realizar la predicción
-    output = model_ann.run([output.name for output in outputs], feed_dict)
+      # Realizar la predicción
+      output = model_ann.run([output.name for output in outputs], feed_dict)
 
-    # Obtener los resultados
-    predictions = output[0][0]
-    result = [int(predictions[0].round())]
-  else:
-    result = modelo_seleccionado.predict([valores])
+      # Obtener los resultados
+      predictions = output[0][0]
+      result = [int(predictions[0].round())]
+    except Exception as e:
+      output = None
+      predictions = None
+      modelo_seleccionado = None
+      result = None
+
+  try:
+    if algoritmo == 'algoritmo9' and enfermedad == 'breast_cancer':
+      try:
+        valores = np.array(valores).astype(np.float32).reshape(1, -1)
+        model_ann = rt.InferenceSession('models/model_ann.onnx')
+        inputs = model_ann.get_inputs()
+        outputs = model_ann.get_outputs()
+        feed_dict = {inputs[0].name: valores}
+        # Realizar la predicci
+        output = model_ann.run([output.name for output in outputs], feed_dict)
+        predictions = output[0][0]
+      except Exception as e:
+        output = None
+        predictions = None
+      # Obtener los resultados
+
+      result_lg = models['model_lg'].predict(valores)
+      result_dt = models['model_dt'].predict(valores)
+      result_knn = models['model_knn'].predict(valores)
+      result_svm = models['model_svm'].predict(valores)
+      result_nb = models['model_nb'].predict(valores)
+      result_gb = models['model_gb'].predict(valores)
+      result_rf = models['model_rf'].predict(valores)
+      result_ann = [int(predictions[0].round())]
+      result_avrg = [
+        models['model_lg'].predict(valores),
+        models['model_dt'].predict(valores),
+        models['model_knn'].predict(valores),
+        models['model_svm'].predict(valores),
+        models['model_nb'].predict(valores),
+        models['model_gb'].predict(valores),
+        models['model_rf'].predict(valores), [int(predictions[0].round())]
+      ]
+      result_avrg = np.array(result_avrg)
+      counts = np.bincount(result_avrg.flatten())
+      # Encontrar el valor con mayor frecuencia
+      result_avrg = np.argmax(counts)
+      try:
+        if result_lg == [1]:
+          result_lg = 'Positive'
+        elif result_lg == [0]:
+          result_lg = "Negatve"
+        if result_dt == [1]:
+          result_dt = 'Positive'
+        elif result_dt == [0]:
+          result_dt = "Negative"
+        if result_knn == [1]:
+          result_knn = 'Positive'
+        elif result_knn == [0]:
+          result_knn = "Negative"
+        if result_svm == [1]:
+          result_svm = 'Positive'
+        elif result_svm == [0]:
+          result_svm = "Negative"
+        if result_nb == [1]:
+          result_nb = 'Positive'
+        elif result_nb == [0]:
+          result_nb = "Negative"
+        if result_gb == [1]:
+          result_gb = 'Positive'
+        elif result_gb == [0]:
+          result_gb = "Negative"
+        if result_rf == [1]:
+          result_rf = 'Positive'
+        elif result_rf == [0]:
+          result_rf = "Negative"
+        if result_ann == [1]:
+          result_ann = 'Positive'
+        elif result_ann == [0]:
+          result_ann = "Negative"
+        if result_avrg == [1]:
+          result_avrg = 'Positive'
+        elif result_avrg == [0]:
+          result_avrg = "Negative"
+        else:
+          result_dt = 'An error ocurred'
+          result_lg = 'An error ocurred'
+          result_knn = 'An error ocurred'
+          result_svm = 'An error ocurred'
+          result_nb = 'An error ocurred'
+          result_gb = 'An error ocurred'
+          result_rf = 'An error ocurred'
+          result_ann = 'An error ocurred'
+          result_avrg = 'An error ocurred'
+          mensaje_personalizado = None
+      except ValueError as e:
+        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+
+      result = {
+        'Logistic Regression': result_lg,
+        'Decision Tree': result_dt,
+        'K-nearest neighbor': result_knn,
+        'Support vector machine': result_svm,
+        'Naive Bayes': result_nb,
+        'Gradient boosted tree': result_gb,
+        'Random Forest': result_rf,
+        'ANN': result_ann,
+        'Combination of all': result_avrg
+      }
+    elif algoritmo == 'algoritmo9' and enfermedad == 'diabetes':
+      valores = np.array(valores).astype(np.float32).reshape(1, -1)
+      model_ann = rt.InferenceSession('models/model_ann_db.onnx')
+      inputs = model_ann.get_inputs()
+      outputs = model_ann.get_outputs()
+      feed_dict = {inputs[0].name: valores}
+      # Realizar la predicción
+      try:
+        output = model_ann.run([output.name for output in outputs], feed_dict)
+        predictions = output[0][0]
+      except Exception as e:
+        output = None
+        predictions = None
+      # Obtener los resultados
+
+      result_lg = models['model_lg_diabetes'].predict(valores)
+      result_dt = models['model_dt_diabetes'].predict(valores)
+      result_knn = models['model_knn_diabetes'].predict(valores)
+      result_svm = models['model_svm_diabetes'].predict(valores)
+      result_nb = models['model_nb_diabetes'].predict(valores)
+      result_gb = models['model_gb_diabetes'].predict(valores)
+      result_rf = models['model_rf_diabetes'].predict(valores)
+      result_ann = [int(predictions[0].round())]
+      result_avrg = [
+        models['model_lg_diabetes'].predict(valores),
+        models['model_dt_diabetes'].predict(valores),
+        models['model_knn_diabetes'].predict(valores),
+        models['model_svm_diabetes'].predict(valores),
+        models['model_nb_diabetes'].predict(valores),
+        models['model_gb_diabetes'].predict(valores),
+        models['model_rf_diabetes'].predict(valores),
+        [int(predictions[0].round())]
+      ]
+      result_avrg = np.array(result_avrg)
+      counts = np.bincount(result_avrg.flatten())
+      # Encontrar el valor con mayor frecuencia
+      result_avrg = np.argmax(counts)
+      try:
+        if result_lg == [1]:
+          result_lg = 'Positive'
+        elif result_lg == [0]:
+          result_lg = "Negatve"
+        if result_dt == [1]:
+          result_dt = 'Positive'
+        elif result_dt == [0]:
+          result_dt = "Negative"
+        if result_knn == [1]:
+          result_knn = 'Positive'
+        elif result_knn == [0]:
+          result_knn = "Negative"
+        if result_svm == [1]:
+          result_svm = 'Positive'
+        elif result_svm == [0]:
+          result_svm = "Negative"
+        if result_nb == [1]:
+          result_nb = 'Positive'
+        elif result_nb == [0]:
+          result_nb = "Negative"
+        if result_gb == [1]:
+          result_gb = 'Positive'
+        elif result_gb == [0]:
+          result_gb = "Negative"
+        if result_rf == [1]:
+          result_rf = 'Positive'
+        elif result_rf == [0]:
+          result_rf = "Negative"
+        if result_ann == [1]:
+          result_ann = 'Positive'
+        elif result_ann == [0]:
+          result_ann = "Negative"
+        if result_avrg == [1]:
+          result_avrg = 'Positive'
+        elif result_avrg == [0]:
+          result_avrg = "Negative"
+        else:
+          result_dt = 'An error ocurred'
+          result_lg = 'An error ocurred'
+          result_knn = 'An error ocurred'
+          result_svm = 'An error ocurred'
+          result_nb = 'An error ocurred'
+          result_gb = 'An error ocurred'
+          result_rf = 'An error ocurred'
+          result_ann = 'An error ocurred'
+          result_avrg = 'An error ocurred'
+          mensaje_personalizado = None
+      except ValueError as e:
+        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+
+      result = {
+        'Logistic Regression': result_lg,
+        'Decision Tree': result_dt,
+        'K-nearest neighbor': result_knn,
+        'Support vector machine': result_svm,
+        'Naive Bayes': result_nb,
+        'Gradient boosted tree': result_gb,
+        'Random Forest': result_rf,
+        'ANN': result_ann,
+        'Combination of all': result_avrg
+      }
+    elif algoritmo == 'algoritmo9' and enfermedad == 'hepatitis':
+      valores = np.array(valores).astype(np.float32).reshape(1, -1)
+      model_ann = rt.InferenceSession('models/model_ann_hep.onnx')
+      inputs = model_ann.get_inputs()
+      outputs = model_ann.get_outputs()
+      feed_dict = {inputs[0].name: valores}
+      # Realizar la predicción
+      try:
+        output = model_ann.run([output.name for output in outputs], feed_dict)
+        predictions = output[0][0]
+      except Exception as e:
+        output = None
+        predictions = None
+      # Obtener los resultados
+
+      result_lg = models['model_lg_hep'].predict(valores)
+      result_dt = models['model_dt_hep'].predict(valores)
+      result_knn = models['model_knn_hep'].predict(valores)
+      result_svm = models['model_svm_hep'].predict(valores)
+      result_nb = models['model_nb_hep'].predict(valores)
+      result_gb = models['model_gb_hep'].predict(valores)
+      result_rf = models['model_rf_hep'].predict(valores)
+      result_ann = [int(predictions[0].round())]
+      result_avrg = [
+        models['model_lg_hep'].predict(valores),
+        models['model_dt_hep'].predict(valores),
+        models['model_knn_hep'].predict(valores),
+        models['model_svm_hep'].predict(valores),
+        models['model_nb_hep'].predict(valores),
+        models['model_gb_hep'].predict(valores),
+        models['model_rf_hep'].predict(valores), [int(predictions[0].round())]
+      ]
+      result_avrg = np.array(result_avrg)
+      counts = np.bincount(result_avrg.flatten())
+      # Encontrar el valor con mayor frecuencia
+      result_avrg = np.argmax(counts)
+      try:
+        if result_lg == [1]:
+          result_lg = 'Positive'
+        elif result_lg == [0]:
+          result_lg = "Negatve"
+        if result_dt == [1]:
+          result_dt = 'Positive'
+        elif result_dt == [0]:
+          result_dt = "Negative"
+        if result_knn == [1]:
+          result_knn = 'Positive'
+        elif result_knn == [0]:
+          result_knn = "Negative"
+        if result_svm == [1]:
+          result_svm = 'Positive'
+        elif result_svm == [0]:
+          result_svm = "Negative"
+        if result_nb == [1]:
+          result_nb = 'Positive'
+        elif result_nb == [0]:
+          result_nb = "Negative"
+        if result_gb == [1]:
+          result_gb = 'Positive'
+        elif result_gb == [0]:
+          result_gb = "Negative"
+        if result_rf == [1]:
+          result_rf = 'Positive'
+        elif result_rf == [0]:
+          result_rf = "Negative"
+        if result_ann == [1]:
+          result_ann = 'Positive'
+        elif result_ann == [0]:
+          result_ann = "Negative"
+        if result_avrg == [1]:
+          result_avrg = 'Positive'
+        elif result_avrg == [0]:
+          result_avrg = "Negative"
+        else:
+          result_dt = 'An error ocurred'
+          result_lg = 'An error ocurred'
+          result_knn = 'An error ocurred'
+          result_svm = 'An error ocurred'
+          result_nb = 'An error ocurred'
+          result_gb = 'An error ocurred'
+          result_rf = 'An error ocurred'
+          result_ann = 'An error ocurred'
+          result_avrg = 'An error ocurred'
+          mensaje_personalizado = None
+      except ValueError as e:
+        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+
+      result = {
+        'Logistic Regression': result_lg,
+        'Decision Tree': result_dt,
+        'K-nearest neighbor': result_knn,
+        'Support vector machine': result_svm,
+        'Naive Bayes': result_nb,
+        'Gradient boosted tree': result_gb,
+        'Random Forest': result_rf,
+        'ANN': result_ann,
+        'Combination of all': result_avrg
+      }
+    elif algoritmo == 'algoritmo9' and enfermedad == 'parkinson':
+      valores = np.array(valores).astype(np.float32).reshape(1, -1)
+      model_ann = rt.InferenceSession('models/model_ann_par.onnx')
+      inputs = model_ann.get_inputs()
+      outputs = model_ann.get_outputs()
+      feed_dict = {inputs[0].name: valores}
+      # Realizar la predicción
+      try:
+        output = model_ann.run([output.name for output in outputs], feed_dict)
+        predictions = output[0][0]
+      except Exception as e:
+        output = None
+        predictions = None
+      # Obtener los resultados
+
+      result_lg = models['model_lg_par'].predict(valores)
+      result_dt = models['model_dt_par'].predict(valores)
+      result_knn = models['model_knn_par'].predict(valores)
+      result_svm = models['model_svm_par'].predict(valores)
+      result_nb = models['model_nb_par'].predict(valores)
+      result_gb = models['model_gb_par'].predict(valores)
+      result_rf = models['model_rf_par'].predict(valores)
+      result_ann = [int(predictions[0].round())]
+      result_avrg = [
+        models['model_lg_par'].predict(valores),
+        models['model_dt_par'].predict(valores),
+        models['model_knn_par'].predict(valores),
+        models['model_svm_par'].predict(valores),
+        models['model_nb_par'].predict(valores),
+        models['model_gb_par'].predict(valores),
+        models['model_rf_par'].predict(valores), [int(predictions[0].round())]
+      ]
+      result_avrg = np.array(result_avrg)
+      counts = np.bincount(result_avrg.flatten())
+      # Encontrar el valor con mayor frecuencia
+      result_avrg = np.argmax(counts)
+      try:
+        if result_lg == [1]:
+          result_lg = 'Positive'
+        elif result_lg == [0]:
+          result_lg = "Negatve"
+        if result_dt == [1]:
+          result_dt = 'Positive'
+        elif result_dt == [0]:
+          result_dt = "Negative"
+        if result_knn == [1]:
+          result_knn = 'Positive'
+        elif result_knn == [0]:
+          result_knn = "Negative"
+        if result_svm == [1]:
+          result_svm = 'Positive'
+        elif result_svm == [0]:
+          result_svm = "Negative"
+        if result_nb == [1]:
+          result_nb = 'Positive'
+        elif result_nb == [0]:
+          result_nb = "Negative"
+        if result_gb == [1]:
+          result_gb = 'Positive'
+        elif result_gb == [0]:
+          result_gb = "Negative"
+        if result_rf == [1]:
+          result_rf = 'Positive'
+        elif result_rf == [0]:
+          result_rf = "Negative"
+        if result_ann == [1]:
+          result_ann = 'Positive'
+        elif result_ann == [0]:
+          result_ann = "Negative"
+        if result_avrg == [1]:
+          result_avrg = 'Positive'
+        elif result_avrg == [0]:
+          result_avrg = "Negative"
+        else:
+          result_dt = 'An error ocurred'
+          result_lg = 'An error ocurred'
+          result_knn = 'An error ocurred'
+          result_svm = 'An error ocurred'
+          result_nb = 'An error ocurred'
+          result_gb = 'An error ocurred'
+          result_rf = 'An error ocurred'
+          result_ann = 'An error ocurred'
+          result_avrg = 'An error ocurred'
+          mensaje_personalizado = None
+      except ValueError as e:
+        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+
+      result = {
+        'Logistic Regression': result_lg,
+        'Decision Tree': result_dt,
+        'K-nearest neighbor': result_knn,
+        'Support vector machine': result_svm,
+        'Naive Bayes': result_nb,
+        'Gradient boosted tree': result_gb,
+        'Random Forest': result_rf,
+        'ANN': result_ann,
+        'Combination of all': result_avrg
+      }
+    elif algoritmo == 'algoritmo9' and enfermedad == 'HCC':
+      valores = np.array(valores).astype(np.float32).reshape(1, -1)
+      model_ann = rt.InferenceSession('models/model_ann_hcc.onnx')
+      inputs = model_ann.get_inputs()
+      outputs = model_ann.get_outputs()
+      feed_dict = {inputs[0].name: valores}
+      # Realizar la predicción
+      try:
+        output = model_ann.run([output.name for output in outputs], feed_dict)
+        predictions = output[0][0]
+      except Exception as e:
+        output = None
+        predictions = None
+      # Obtener los resultados
+
+      result_lg = models['model_lg_hcc'].predict(valores)
+      result_dt = models['model_dt_hcc'].predict(valores)
+      result_knn = models['model_knn_hcc'].predict(valores)
+      result_svm = models['model_svm_hcc'].predict(valores)
+      result_nb = models['model_nb_hcc'].predict(valores)
+      result_gb = models['model_gb_hcc'].predict(valores)
+      result_rf = models['model_rf_hcc'].predict(valores)
+      result_ann = [int(predictions[0].round())]
+      result_avrg = [
+        models['model_lg_hcc'].predict(valores),
+        models['model_dt_hcc'].predict(valores),
+        models['model_knn_hcc'].predict(valores),
+        models['model_svm_hcc'].predict(valores),
+        models['model_nb_hcc'].predict(valores),
+        models['model_gb_hcc'].predict(valores),
+        models['model_rf_hcc'].predict(valores), [int(predictions[0].round())]
+      ]
+      result_avrg = np.array(result_avrg)
+      counts = np.bincount(result_avrg.flatten())
+      # Encontrar el valor con mayor frecuencia
+      result_avrg = np.argmax(counts)
+      try:
+        if result_lg == [1]:
+          result_lg = 'Positive'
+        elif result_lg == [0]:
+          result_lg = "Negatve"
+        if result_dt == [1]:
+          result_dt = 'Positive'
+        elif result_dt == [0]:
+          result_dt = "Negative"
+        if result_knn == [1]:
+          result_knn = 'Positive'
+        elif result_knn == [0]:
+          result_knn = "Negative"
+        if result_svm == [1]:
+          result_svm = 'Positive'
+        elif result_svm == [0]:
+          result_svm = "Negative"
+        if result_nb == [1]:
+          result_nb = 'Positive'
+        elif result_nb == [0]:
+          result_nb = "Negative"
+        if result_gb == [1]:
+          result_gb = 'Positive'
+        elif result_gb == [0]:
+          result_gb = "Negative"
+        if result_rf == [1]:
+          result_rf = 'Positive'
+        elif result_rf == [0]:
+          result_rf = "Negative"
+        if result_ann == [1]:
+          result_ann = 'Positive'
+        elif result_ann == [0]:
+          result_ann = "Negative"
+        if result_avrg == [1]:
+          result_avrg = 'Positive'
+        elif result_avrg == [0]:
+          result_avrg = "Negative"
+        else:
+          result_dt = 'An error ocurred'
+          result_lg = 'An error ocurred'
+          result_knn = 'An error ocurred'
+          result_svm = 'An error ocurred'
+          result_nb = 'An error ocurred'
+          result_gb = 'An error ocurred'
+          result_rf = 'An error ocurred'
+          result_ann = 'An error ocurred'
+          result_avrg = 'An error ocurred'
+          mensaje_personalizado = None
+      except ValueError as e:
+        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+
+      result = {
+        'Logistic Regression': result_lg,
+        'Decision Tree': result_dt,
+        'K-nearest neighbor': result_knn,
+        'Support vector machine': result_svm,
+        'Naive Bayes': result_nb,
+        'Gradient boosted tree': result_gb,
+        'Random Forest': result_rf,
+        'ANN': result_ann,
+        'Combination of all': result_avrg
+      }
+    else:
+      if modelo_seleccionado is not None and algoritmo != 'algoritmo8':
+        result = modelo_seleccionado.predict([valores])
+  except ValueError as e:
+    result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
   try:
     if result == [1]:
       result = 'positive diagnostic, please consider consulting a doctor'
     elif result == [0]:
-      result = "negative diagnostic, all good!"
+      result = " negative diagnostic, all good!"
+    elif algoritmo == 'algoritmo9':
+      result = result
     else:
-      result = None
+      result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
     mensaje_personalizado = None
   except ValueError as e:
-    mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
-    result = None
+    result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
+  if algoritmo == 'algoritmo1':
+    algorithm = 'Logistic Regression'
+  elif algoritmo == 'algoritmo2':
+    algorithm = 'Decision Tree'
+  elif algoritmo == 'algoritmo3':
+    algorithm = 'K-nearest neighbor'
+  elif algoritmo == 'algoritmo4':
+    algorithm = 'Support vector machine'
+  elif algoritmo == 'algoritmo5':
+    algorithm = 'Naive Bayes'
+  elif algoritmo == 'algoritmo6':
+    algorithm = 'Gradient boosted tree'
+  elif algoritmo == 'algoritmo7':
+    algorithm = 'Random forest'
+  elif algoritmo == 'algoritmo8':
+    algorithm = 'Artificial Neural Network'
+  elif algoritmo == 'algoritmo9':
+    algorithm = 'All algorithms'
 
   return render_template('result.html',
                          results=result,
-                         error=mensaje_personalizado)
+                         error=mensaje_personalizado,
+                         algorithm=algorithm,
+                         data=valores)
 
 
 if __name__ == '__main__':

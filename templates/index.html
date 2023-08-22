@@ -189,18 +189,21 @@
             padding: 10px;
             font-family: 'Belanosima', sans-serif;
             color: #ffffff;
+            margin: 20px;
         }
         #info1 {
             background-color: #7a4891;
             padding: 10px;
             font-family: 'Belanosima', sans-serif;
             color: #ffffff;
+            margin: 20px;
         }
         #info2 {
             background-color: #7a4891;
             padding: 10px;
             font-family: 'Belanosima', sans-serif;
             color: #ffffff;
+            margin: 20px;
             @media screen and (max-width: 767px) {
                 font-size: 10px;
             }
@@ -286,6 +289,7 @@
             background-color: rgb(109, 75, 124);
             color: #fff;
             display: none;
+          
         }
         #clean_tables {
             margin-bottom: 30px;
@@ -314,34 +318,33 @@
                 <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo1()">Info</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo2()">Help</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="toggleInfo()">About</a>
-                <div id="info" style="display: none;" class="container text-center">
-                    <!-- Contenido de la pestaña de información -->
-                    <p id = "about">This website is developed by me, Javier Aranda, a 16 year-old student. You can contact me with this address: @javilonic06@gmail.com</p>
+        </header>
+      <div id="info" style="display: none;" >
+                    <p id = "about">This website is developed by me, Javier Aranda, a 16 year-old batxillerat student. You can contact me at this address: @javilonic06@gmail.com</p>
                 </div>
                 </li>
             </ul>
-            <div id="info1" style="display: none;" class="container text-center">
+            <div id="info1" style="display: none;">
                 <!-- Contenido de la pestaña de información -->
-                <p>On this website you can get a diagnostic of a total of 5 diseases, breast cancer, diabetes, hepatitis, parkinson and HCC (hepatocellular carcinoma). This diagnostic is done using AI supervised learning algorithms, which can also be chosen. These algorithms use the data proporcioned in the table, and they try to use the patterns seen in the datasets on which they were trained to make a diagnostic of 0 (negative) or 1 (positive).</p>
+                <p>On this website you can get a diagnosis of a total of five diseases, breast cancer, diabetes, hepatitis, parkinson's and HCC (hepatocellular carcinoma). This diagnosis is done using AI supervised learning algorithms, which can also be chosen. These algorithms use the data proportioned in the table, and they try to use the patterns seen in the datasets on which they were trained to make a diagnosis of 0 (negative) or 1 (positive).</p>
             </div>
-            <div id="info2" style="display: none;" class="container text-center">
+            <div id="info2" style="display: none;" >
                 <!-- Contenido de la pestaña de información -->
                 <p>First of all you need to choose the disease of which you want to make a diagnosis. After that, choose the algorithm that will make the diagnosis, we highly recommend using the algorithm with better performance. Then hit the button predict to see the results. In case of having so much data stored press the button clean tables.</p>
             </div>
-        </header>
     </div>
     <div class="image-container">
         <img src="https://www.imghost.net/ib/Tb0E5kAiozLgdM7_1688921066.jpg" alt="Imagen" class="center-image">
         <div>
             <h1 class="text-overlay">Disease Prediction</h1>
-            <h2 class="text-overlay1">AI supervised algorithms that make a diagnostic of 5 different total diseases, including
+            <h2 class="text-overlay1">AI supervised algorithms that make a diagnosis of five different diseases, namely
                 Breast Cancer,
                 Diabetes,
                 Hepatitis,
-                Parkinson and
+                Parkinson's and
                 Hepatocellular Carcinoma
             </h2>
-            <h2 class="text-overlay2">This website has only experimental purposes, please consider consulting a doctor before drawing conclusions</h2>
+            <h2 class="text-overlay2">The content of this website should only be used for experimental purposes</h2>
           </div>
         
     </div>
@@ -357,7 +360,7 @@
                   <option value="breast_cancer">Breast Cancer</option>
                   <option value="diabetes">Diabetes</option>
                   <option value="hepatitis">Hepatitis</option>
-                  <option value="parkinson">Parkinson</option>
+                  <option value="parkinson">Parkinson's</option>
                   <option value="HCC">Hepatocellular Carcinoma (HCC)</option>
                 </select>
               </div>
@@ -425,11 +428,12 @@
                         <option value="algoritmo6">Gradient Boosted Tree</option>
                         <option value="algoritmo7">Random forest</option>
                         <option value="algoritmo8">Artificial Neural Network</option>
+                        <option value="algoritmo9">All algorithms</option>
                     </select>
                 </div>
             </div>
         </div>
-        <h2 id="disease_selection1" class = "container text-center">This is the table you have to fill. In case of missing value, put a 0 instead.</h2>
+        <h2 id="disease_selection1" class = "container text-center">This is the table you have to fill. In case of missing value, put a 0 instead. Only numeric values </h2>
         <div id="tablaEnfermedad" class="container" name="tabla" style="overflow-x: auto;">
                 <table id="tablaDatos">
                     <thead>
@@ -462,13 +466,13 @@
                 <table id="tablaDatosdb">
                     <thead>
                         <tr class="tabla_bc">
-                            <th>Pregnancies (Number of times pregnant)</th>
-                            <th>Glucose (Plasma glucose concentration a 2 hours in an oral glucose tolerance test)</th>
-                            <th>BloodPressure (Diastolic blood pressure (mm Hg))</th>
-                            <th>SkinThickness (Diastolic blood pressure (mm Hg))</th>
-                            <th>Insulin (2-Hour serum insulin (mu U/ml))</th>
-                            <th>BMI (Body mass index (weight in kg/(height in m)^2))</th>
-                            <th>DiabetesPedigreeFunction</th>
+                            <th>Pregnancies (Number of times pregnant, 0-17)</th>
+                            <th>Glucose (Plasma glucose concentration a 2 hours in an oral glucose tolerance test, 0-199)</th>
+                            <th>BloodPressure (Diastolic blood pressure (mm Hg)) (0-122)</th>
+                            <th>SkinThickness (Diastolic blood pressure (mm Hg)) (0-99)</th>
+                            <th>Insulin (2-Hour serum insulin (mu U/ml)) (0-846)</th>
+                            <th>BMI (Body mass index (weight in kg/(height in m)^2)) (0-67.1)</th>
+                            <th>DiabetesPedigreeFunction (0.08-2.42)</th>
                             <th>Age (years)</th>
                         </tr>
                     </thead>
@@ -536,28 +540,28 @@
                     <table id="tablaDatospar">
                         <thead>
                             <tr class="tabla_bc">
-                                <th>MDVP:Fo(Hz) - Average vocal fundamental frequency</th>
-                                <th>MDVP:Fhi(Hz) - Maximum vocal fundamental frequency</th>
-                                <th>MDVP:Flo(Hz)  - Minimum vocal fundamental frequency</th>
-                                <th>MDVP:Jitter(%) - Several measure of variation in fundamental frequency</th>
-                                <th>MDVP:Jitter(Abs) - measure of variation in fundamental frequency</th>
-                                <th>MDVP:RAP - measure of variation in fundamental frequency</th>
-                                <th>MDVP:PPQ - measure of variation in fundamental frequency</th>
-                                <th>Jitter:DDP - measure of variation in fundamental frequency</th>
-                                <th>MDVP:Shimmer - measure of variation in fundamental amplitude</th>
-                                <th>MDVP:Shimmer(dB - measure of variation in fundamental amplitude)</th>
-                                <th>Shimmer:APQ3 - measure of variation in fundamental amplitude</th>
-                                <th>Shimmer:APQ5 - measure of variation in fundamental amplitude</th>
-                                <th>MDVP:APQ - measure of variation in fundamental amplitude</th>
-                                <th>Shimmer:DDA - measure of variation in fundamental amplitude</th>
-                                <th>NHR - measure of ratio of noise to tonal components in the voice</th>
-                                <th>HNR - measure of ratio of noise to tonal components in the voice</th>
-                                <th>RPDE - nonlinear dynamical complexity measure</th>
-                                <th>DFA - Signal fractal scaling exponent</th>
-                                <th>spread1 - nonlinear measure of fundamental frequency variation</th>
-                                <th>spread2 - nonlinear measure of fundamental frequency variation</th>
-                                <th>D2- nonlinear dynamical complexity measure</th>
-                                <th>PPE - nonlinear measure of fundamental frequency variation</th>
+                                <th>MDVP:Fo(Hz) - Average vocal fundamental frequency (88-260)</th>
+                                <th>MDVP:Fhi(Hz) - Maximum vocal fundamental frequency (102-592)</th>
+                                <th>MDVP:Flo(Hz)  - Minimum vocal fundamental frequency (65-239)</th>
+                                <th>MDVP:Jitter(%) - Several measure of variation in fundamental frequency (0-0.03)</th>
+                                <th>MDVP:Jitter(Abs) - measure of variation in fundamental frequency (0-0.02)</th>
+                                <th>MDVP:RAP - measure of variation in fundamental frequency (0-0.02)</th>
+                                <th>MDVP:PPQ - measure of variation in fundamental frequency (0-0.02)</th>
+                                <th>Jitter:DDP - measure of variation in fundamental frequency (0-0.06)</th>
+                                <th>MDVP:Shimmer - measure of variation in fundamental amplitude (0-0.12)</th>
+                                <th>MDVP:Shimmer(dB - measure of variation in fundamental amplitude) (0-1.3)</th>
+                                <th>Shimmer:APQ3 - measure of variation in fundamental amplitude (0-0.06)</th>
+                                <th>Shimmer:APQ5 - measure of variation in fundamental amplitude (0-0.08)</th>
+                                <th>MDVP:APQ - measure of variation in fundamental amplitude (0-0.14)</th>
+                                <th>Shimmer:DDA - measure of variation in fundamental amplitude (0-0.17)</th>
+                                <th>NHR - measure of ratio of noise to tonal components in the voice (0-0.31)</th>
+                                <th>HNR - measure of ratio of noise to tonal components in the voice (8-33)</th>
+                                <th>RPDE - nonlinear dynamical complexity measure (0.2-0.69)</th>
+                                <th>DFA - Signal fractal scaling exponent (0.57-0.83)</th>
+                                <th>spread1 - nonlinear measure of fundamental frequency variation ((-8)-0)</th>
+                                <th>spread2 - nonlinear measure of fundamental frequency variation (0-0.45)</th>
+                                <th>D2- nonlinear dynamical complexity measure (1.42-3.67)</th>
+                                <th>PPE - nonlinear measure of fundamental frequency variation (0-0.53)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -614,31 +618,31 @@
                                 <th>Liver Metastasis (0 if not 1 if yes)</th>
                                 <th>Radiological Hallmark (0 if not 1 if yes) </th>
                                 <th>Age at diagnosis (years)</th>
-                                <th>Grams of Alcohol per day</th>
-                                <th>Packs of cigarets per year</th>
+                                <th>Grams of Alcohol per day (0-500)</th>
+                                <th>Packs of cigarets per year (0-510)</th>
                                 <th>Performance Status (0-4)</th>
                                 <th>Encefalopathy degree (1-3)</th>
                                 <th>Ascites degree (1-3)</th>
-                                <th>International Normalised Ratio</th>
-                                <th>Alpha-Fetoprotein (ng/mL)</th>
-                                <th>Haemoglobin (g/dL)</th>
-                                <th>Mean Corpuscular Volume(fl)</th>
-                                <th>Leukocytes(G/L)</th>
-                                <th>Platelets(G/L)</th>
-                                <th>Albumin (mg/dL)</th>
-                                <th>Total Bilirubin(mg/dL)</th>
-                                <th>Alanine transaminase (U/L)</th>
-                                <th>Aspartate transaminase (U/L)</th>
-                                <th>Gamma glutamyl transferase (U/L)</th>
-                                <th>Alkaline phosphatase (U/L)</th>
-                                <th>Total Proteins (g/dL)</th>
-                                <th>Creatinine (mg/dL)</th>
-                                <th>Number of Nodules</th>
-                                <th>Major dimension of nodule (cm)</th>
-                                <th>Direct Bilirubin (mg/dL)</th>
-                                <th>Iron	(mcg/dL)</th>
-                                <th>Oxygen Saturation (%)</th>
-                                <th>Ferritin (ng/mL)</th>
+                                <th>International Normalised Ratio (1-2.14)</th>
+                                <th>Alpha-Fetoprotein (ng/mL) (0-1810346)</th>
+                                <th>Haemoglobin (g/dL) (5-20)</th>
+                                <th>Mean Corpuscular Volume(fl) (40-200)</th>
+                                <th>Leukocytes(G/L) (2-13000) </th>
+                                <th>Platelets(G/L) (50-459000)</th>
+                                <th>Albumin (mg/dL) (2-5)</th>
+                                <th>Total Bilirubin(mg/dL) (0-33)</th>
+                                <th>Alanine transaminase (U/L) (20-220)</th>
+                                <th>Aspartate transaminase (U/L) (20-550)</th>
+                                <th>Gamma glutamyl transferase (U/L) (20-1000)</th>
+                                <th>Alkaline phosphatase (U/L) (60-1000)</th>
+                                <th>Total Proteins (g/dL) (6-9)</th>
+                                <th>Creatinine (mg/dL) (0-3.99)</th>
+                                <th>Number of Nodules (0, 1, 2 or 5)</th>
+                                <th>Major dimension of nodule (cm) (1-22)</th>
+                                <th>Direct Bilirubin (mg/dL) (0.1-2.2)</th>
+                                <th>Iron	(mcg/dL) (14-184)</th>
+                                <th>Oxygen Saturation (%) (0-150)</th>
+                                <th>Ferritin (ng/mL) (16-2230)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -695,11 +699,12 @@
                             </tr>
                         </tbody>
                     </table>
-            <div class="container text-center"> 
-                <button type="submit" onsubmit="guardarDatos(event)" class=" btn " id = "predict">Predict</button>
-            </div>
             
-        </div>        
+            
+        </div>     
+      <div class="container text-center"> 
+                <button type="submit" onsubmit="guardarDatos(event)" class=" btn" id = "predict">Predict</button>
+            </div>
     </form>
     <div class="container text-center">
         <button class=" btn btn-dark " onclick="limpiarValores()" id = "clean_tables">Clean tables</button>
@@ -909,39 +914,42 @@
                 }
             }
             function limpiarValores() {
-            // Obtener los elementos de las tablas
-            var tablaDatos = document.getElementById("tablaDatos");
-            var tablaDatosdb = document.getElementById("tablaDatosdb");
-            var tablaDatoshep = document.getElementById("tablaDatoshep");
-            var tablaDatospar = document.getElementById("tablaDatospar");
-            var tablaDatoshcc = document.getElementById("tablaDatoshcc");
-
-            // Obtener los elementos de input de cada tabla
-            var inputsTablaDatos = tablaDatos.getElementsByTagName("input");
-            var inputsTablaDatosdb = tablaDatosdb.getElementsByTagName("input");
-            var inputsTablaDatoshep = tablaDatoshep.getElementsByTagName("input");
-            var inputsTablaDatospar = tablaDatospar.getElementsByTagName("input");
-            var inputsTablaDatoshcc = tablaDatoshcc.getElementsByTagName("input");
-
-            // Limpiar los valores de los inputs
-            for (var i = 0; i < inputsTablaDatos.length; i++) {
-                inputsTablaDatos[i].value = "";
-            }
-
-            for (var i = 0; i < inputsTablaDatosdb.length; i++) {
-                inputsTablaDatosdb[i].value = "";
-            }
-            for (var i = 0; i < inputsTablaDatoshep.length; i++) {
-                inputsTablaDatoshep[i].value = "";
-            }
-            for (var i = 0; i < inputsTablaDatospar.length; i++) {
-                inputsTablaDatospar[i].value = "";
-            }
-            for (var i = 0; i < inputsTablaDatoshcc.length; i++) {
-                inputsTablaDatoshcc[i].value = "";
-            }
-            }
-
+              // Obtener los elementos de las tablas
+              var tablaDatos = document.getElementById("tablaDatos");
+              var tablaDatosdb = document.getElementById("tablaDatosdb");
+              var tablaDatoshep = document.getElementById("tablaDatoshep");
+              var tablaDatospar = document.getElementById("tablaDatospar");
+              var tablaDatoshcc = document.getElementById("tablaDatoshcc");
+  
+              // Obtener los elementos de input de cada tabla
+              var inputsTablaDatos = tablaDatos.getElementsByTagName("input");
+              var inputsTablaDatosdb = tablaDatosdb.getElementsByTagName("input");
+              var inputsTablaDatoshep = tablaDatoshep.getElementsByTagName("input");
+              var inputsTablaDatospar = tablaDatospar.getElementsByTagName("input");
+              var inputsTablaDatoshcc = tablaDatoshcc.getElementsByTagName("input");
+  
+              // Limpiar los valores de los inputs
+              for (var i = 0; i < inputsTablaDatos.length; i++) {
+                  inputsTablaDatos[i].value = "";
+              }
+  
+              for (var i = 0; i < inputsTablaDatosdb.length; i++) {
+                  inputsTablaDatosdb[i].value = "";
+              }
+              for (var i = 0; i < inputsTablaDatoshep.length; i++) {
+                  inputsTablaDatoshep[i].value = "";
+              }
+              for (var i = 0; i < inputsTablaDatospar.length; i++) {
+                  inputsTablaDatospar[i].value = "";
+              }
+              for (var i = 0; i < inputsTablaDatoshcc.length; i++) {
+                  inputsTablaDatoshcc[i].value = "";
+              }
+              }
+            document.addEventListener("DOMContentLoaded", function () {
+                mostrarTabla();
+                mostrarInfo();
+              });
     </script>
 </body>
 </html>

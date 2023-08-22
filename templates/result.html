@@ -61,6 +61,38 @@
         #home {
             background-color: rgba(0, 0, 255, 0.192);
         }
+        #tabla_bc {
+              background-image: linear-gradient(to bottom right,rgb(196, 79, 161), rgb(109, 75, 124));
+              background-repeat: no-repeat;
+              color: #fff;
+              font-family: 'Lato', sans-serif;
+              font-size: 100%;
+              min-height: 100%;
+              line-height: 1.5;
+              padding: 10px;
+              
+              @media screen and (max-width: 767px) {
+                  background-color: rgb(117, 75, 158);
+                  background-repeat: no-repeat;
+                  color: #ffffff;
+                  font-family: 'Lato', sans-serif;
+                  font-size: 12px;
+                  min-height: 100%;
+                  line-height: 1.5;
+                  padding: 10px;
+              }
+          }
+      #table {
+            background-color: rgba(124, 12, 12, 0.192);
+            color: white;
+            padding: 10px;
+        }
+      #tabla {
+        margin:10px;
+        @media screen and (max-width: 767px) {
+                  margin: 3px ;
+              }
+      }
     </style>
 </head>
 <body>
@@ -74,8 +106,26 @@
   </div>
     <div class = "container text-center">
         <h1 id = "prediction">Results</h1>
-        {% if resultado is not none %}
-            <p id = "result">The result of the prediction is {{ results }}</p>
+        {% if results is not none %}
+            {%if results is mapping %}
+                <table id = 'tabla' class = "container text-center border border-danger">
+                  <tr id = 'tabla_bc'>
+                    <th>Algorithm</th>
+                    <th>Result</th>
+                  </tr>
+                  {% for algoritmo, resultado in results.items() %}
+                    <tr id = 'table'>
+                      <td>{{ algoritmo }}</td>
+                      <td>{{ resultado }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+            {% elif data is not none %}
+              <p id = "result"> The result of the prediction with the {{algorithm}} method is {{ results }}</p>
+              <p id = "result"> Data introduced : {{data}}</p>
+            {% else %}
+              <p id = "result"> An error ocurred</p>
+            {% endif %}
             <div class= "container text-center">
                 <button class=" btn btn-success " id = "save_results">Save results</button>
             </div>
@@ -84,26 +134,54 @@
                     <strong id ="warning2"> Warning:</strong> This website is only a project and does not replace consulting a real doctor to get an accurate and reliable diagnosis. This tool provides a preliminary prediction based on machine learning algorithms, but should not be considered as professional medical advice.
                 </p>
             </div>
-            <script>
-                
-                document.getElementById("save_results").addEventListener("click", function() {
+            {%if results is mapping %}
+              <script>
+                  document.getElementById("save_results").addEventListener("click", function() {
                     // Aquí va tu código para obtener el resultado
-                    var resultado = "The result of the prediction was {{resultado}}"
-        
+                    var results = {{ results | tojson | safe }};
+                    
+                    // Crear el contenido del archivo .txt
+                    var content = "";
+                    for (var algoritmo in results) {
+                        content += algoritmo + ": " + results[algoritmo] + "\n";
+                    }
+                    
                     // Crear un enlace temporal para descargar el archivo
                     var link = document.createElement("a");
-                    link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(resultado);
+                    link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
                     link.download = "Disease_prediction.txt";
                     link.style.display = "none";
                     document.body.appendChild(link);
-        
+                
                     // Simular un clic en el enlace para iniciar la descarga
                     link.click();
-        
+                
                     // Eliminar el enlace temporal
                     document.body.removeChild(link);
                 });
-            </script>
+              </script>
+            {% else %}
+              <script>
+                  
+                  document.getElementById("save_results").addEventListener("click", function() {
+                      // Aquí va tu código para obtener el resultado
+                      var resultado = "The result of the prediction with {{algorithm}} is {{results}} Data: {{data}}"
+          
+                      // Crear un enlace temporal para descargar el archivo
+                      var link = document.createElement("a");
+                      link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(resultado);
+                      link.download = "Disease_prediction.txt";
+                      link.style.display = "none";
+                      document.body.appendChild(link);
+          
+                      // Simular un clic en el enlace para iniciar la descarga
+                      link.click();
+          
+                      // Eliminar el enlace temporal
+                      document.body.removeChild(link);
+                  });
+              </script>
+            {% endif %}
         {% else %}
             <p id = "error" class="p-3 mb-2 text-dark border border-danger">{{ error }}</p>
             <div class="p-3 mb-2 text-dark border border-danger" id = "warning">
