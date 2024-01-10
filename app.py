@@ -188,16 +188,73 @@ def guardar_datos():
     modelo_seleccionado = None
 
   data = request.form.to_dict()
+
   valores = []
   for clave, valor in data.items():
-    if clave.startswith('valor') and valor != '':
-      try:
-        valor_numerico = float(valor)
-        valores.append(valor_numerico)
-      except ValueError as e:
-        valor_numerico = None
-        valores = None
-        break
+    if enfermedad == 'breast_cancer':
+      if clave.startswith('valor_b') and valor != 0:
+        if valor != '':
+          try:
+            valor_numerico = float(valor)
+            valores.append(valor_numerico)
+          except ValueError as e:
+            valor_numerico = None
+            valores = None
+            break
+        if valor == '':
+          valores.append(0)
+
+    elif enfermedad == 'diabetes':
+      if clave.startswith('valor_d') and valor != 0:
+        if valor != '':
+          try:
+            valor_numerico = float(valor)
+            valores.append(valor_numerico)
+          except ValueError as e:
+            valor_numerico = None
+            valores = None
+            break
+        if valor == '':
+          valores.append(0)
+
+    elif enfermedad == 'hepatitis':
+      if clave.endswith('hep') and valor != 0:
+        if valor != '':
+          try:
+            valor_numerico = float(valor)
+            valores.append(valor_numerico)
+          except ValueError as e:
+            valor_numerico = None
+            valores = None
+            break
+        if valor == '':
+          valores.append(0)
+
+    elif enfermedad == 'parkinson':
+      if clave.endswith('par') and valor != 0:
+        if valor != '':
+          try:
+            valor_numerico = float(valor)
+            valores.append(valor_numerico)
+          except ValueError as e:
+            valor_numerico = None
+            valores = None
+            break
+        if valor == '':
+          valores.append(0)
+
+    elif enfermedad == 'HCC':
+      if clave.endswith('hcc') and valor != 0:
+        if valor != '':
+          try:
+            valor_numerico = float(valor)
+            valores.append(valor_numerico)
+          except ValueError as e:
+            valor_numerico = None
+            valores = None
+            break
+        if valor == '':
+          valores.append(0)
 
   if algoritmo == 'algoritmo8':
     modelo_seleccionado = None
@@ -317,7 +374,7 @@ def guardar_datos():
           result_avrg = 'An error ocurred'
           mensaje_personalizado = None
       except ValueError as e:
-        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+        mensaje_personalizado = "An error ocurred, please check that all values are numeric"
 
       result = {
         'Logistic Regression': result_lg,
@@ -416,7 +473,7 @@ def guardar_datos():
           result_avrg = 'An error ocurred'
           mensaje_personalizado = None
       except ValueError as e:
-        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+        mensaje_personalizado = "An error ocurred, please check that all values are numeric"
 
       result = {
         'Logistic Regression': result_lg,
@@ -514,7 +571,7 @@ def guardar_datos():
           result_avrg = 'An error ocurred'
           mensaje_personalizado = None
       except ValueError as e:
-        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+        mensaje_personalizado = "An error ocurred, please check that all values are numeric"
 
       result = {
         'Logistic Regression': result_lg,
@@ -612,7 +669,7 @@ def guardar_datos():
           result_avrg = 'An error ocurred'
           mensaje_personalizado = None
       except ValueError as e:
-        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+        mensaje_personalizado = "An error ocurred, please check that all values are numeric"
 
       result = {
         'Logistic Regression': result_lg,
@@ -710,7 +767,7 @@ def guardar_datos():
           result_avrg = 'An error ocurred'
           mensaje_personalizado = None
       except ValueError as e:
-        mensaje_personalizado = "An error ocurred, please check all the selected information and that there is no missing values in the table data"
+        mensaje_personalizado = "An error ocurred, please check that all values are numeric"
 
       result = {
         'Logistic Regression': result_lg,
@@ -727,7 +784,7 @@ def guardar_datos():
       if modelo_seleccionado is not None and algoritmo != 'algoritmo8':
         result = modelo_seleccionado.predict([valores])
   except ValueError as e:
-    result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
+    result = 'An error ocurred, please check that all values are numeric'
   try:
     if result == [1]:
       result = 'positive diagnostic, please consider consulting a doctor'
@@ -736,10 +793,10 @@ def guardar_datos():
     elif algoritmo == 'algoritmo9':
       result = result
     else:
-      result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
+      result = 'An error ocurred, please check that all values are numeric'
     mensaje_personalizado = None
   except ValueError as e:
-    result = 'An error ocurred, please check all the selected information and that there is no missing values in the table data'
+    result = 'An error ocurred, please check that all values are numeric'
   if algoritmo == 'algoritmo1':
     algorithm = 'Logistic Regression'
   elif algoritmo == 'algoritmo2':

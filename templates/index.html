@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@700&family=Belanosima&family=Orbitron&display=swap" rel="stylesheet">
     <link rel="icon" href="https://www.imghost.net/ib/toA5Byh8VEDKzdt_1688996765.jpg">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
         <style>
             body {
                 background-image: linear-gradient(to bottom left, rgb(255, 255, 255), rgb(142, 228, 231));
@@ -53,16 +56,14 @@
             display: flex; 
             flex-direction: column;
             position: absolute;
-            top: 200px;
-            left: 20%;
+            top: 15%;
+            left: 51.5%;
             transform: translate(-50%, -50%);
             color: #ffffff;
             padding: 10px;
             text-align: left;
             width: 100%; /* Ancho deseado para el título */
-            max-width: 800px; /* Máximo ancho para el título */
             font-size: 100px;
-            margin-left: 100px;
             @media screen and (max-width: 767px) {
                 font-family: 'Belanosima', sans-serif;
                 display: flex; 
@@ -85,7 +86,7 @@
             display: flex; 
             flex-direction: column;
             position: absolute;
-            top: 400px;
+            top: 50%;
             left: 20%;
             transform: translate(-50%, -50%);
             color: rgb(58, 255, 239);
@@ -93,7 +94,7 @@
             text-align: left;
             width: 100%; /* Ancho deseado para el título */
             max-width: 500px; /* Máximo ancho para el título */
-            font-size: 28px;
+            font-size: 30px;
             @media screen and (max-width: 767px) {
                 font-family: 'Belanosima', sans-serif;
                 display: flex; 
@@ -115,18 +116,21 @@
             display: flex; 
             flex-direction: column;
             position: absolute;
-            top: 600px;
+            top: 75%;
             left: 20%;
             transform: translate(-50%, -50%);
-            color: #ff0000;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5),
-                 0 0 20px rgba(0, 0, 0, 0.5),
-                 0 0 30px rgba(0, 0, 0, 0.5);
+            color: rgb(255, 255, 255);
+            text-shadow: 0 0 10px rgba(157, 13, 224, 0.5),
+                 0 0 20px rgba(157, 13, 224, 0.5),
+                 0 0 30px rgba(157, 13, 224, 0.5),
+                 0 0 40px rgba(157, 13, 224, 0.5),
+                 0 0 50px rgba(157, 13, 224, 0.5),
+                 0 0 60px rgba(157, 13, 224, 0.5);
             padding: 10px;
             text-align: left;
             width: 80%; /* Ancho deseado para el título */
             max-width: 500px; /* Máximo ancho para el título */
-            font-size: 20px;
+            font-size: 25px;
             @media screen and (max-width: 767px) {
                 font-family: 'Belanosima', sans-serif;
                 display: flex; 
@@ -307,14 +311,74 @@
                 font-size: 10px;
             }
         }
-        
+          .search-box{
+            width: fit-content;
+            height: fit-content;
+            position: relative;
+          }
+          .input-search{
+            height: 50px;
+            width: 50px;
+            border-style: none;
+            padding: 10px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            outline: none;
+            border-radius: 25px;
+            transition: all .5s ease-in-out;
+            background-image: linear-gradient(to bottom right, rgb(196, 79, 161), rgb(109, 75, 124));
+            padding-right: 40px;
+            color:#fff;
+          }
+          .input-search::placeholder{
+            color:rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+          }
+          .btn-search{
+            width: 50px;
+            height: 50px;
+            border-style: none;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
+            right: 0px;
+            color:#ffffff ;
+            background-color:transparent;
+            pointer-events: painted;  
+          }
+          .btn-search:focus ~ .input-search{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+          }
+          .input-search:focus{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+          }
+          #buscador {
+            margin-left: 125px;
+            @media screen and (max-width: 767px) {
+                margin-left: auto;
+            }
+          }
+      
     </style>
 </head>
 <body>
     <div class="container">
         <header class="d-flex justify-content-center py-3" id="top">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="" class="nav-link active " aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo1()">Info</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="toggleInfo2()">Help</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="toggleInfo()">About</a>
@@ -334,7 +398,7 @@
             </div>
     </div>
     <div class="image-container">
-        <img src="https://www.imghost.net/ib/Tb0E5kAiozLgdM7_1688921066.jpg" alt="Imagen" class="center-image">
+        <img src="https://yourimageshare.com/ib/riqxwYCW88.jpg" alt="Imagen" class="center-image">
         <div>
             <h1 class="text-overlay">Disease Prediction</h1>
             <h2 class="text-overlay1">AI supervised algorithms that make a diagnosis of five different diseases, namely
@@ -368,7 +432,7 @@
                 <p>Breast cancer is a disease that shows up when the cells in the breast start to grow out of control. There are a few types of this disease, which will depend on the cells in the breast that turn into cancer. 
                     The breast is composed of different parts, including the lobules, which are the glands that can produce milk; the ducts, which carry the milk to the nipple; and connective tissue, which holds and surrounds everything together. 
             </p>
-                <img id = "img_info"  src="https://i.ibb.co/LzP47MF/Breast-DCIS-histopathology-1.jpg" alt="Imagen_bc">
+                <img id = "img_info"  src="https://yourimageshare.com/ib/1HG44QTgfu.jpg" alt="Imagen_bc">
                 <p id= "pie_bc">Growth of malignant cells in breast tissue</p>
                 <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/15/breast+cancer+wisconsin+original">Breast Cancer Wisconsin (Diagnostic) Data Set</a> from the UCI Machine Learning repository.</p>
                 <p>The algorithm that showed better performance on this dataset was Random Forest</p>
@@ -377,7 +441,7 @@
                 <p>Diabetes is a long-lasting and chronic health condition that affects how your body transforms food into energy. Normally, your body breaks down the food that you eat into glucose and releases it into your bloodstream. When your blood glucose level is high, it signals your pancreas to release insulin, which allows your blood to let the blood glucose into your body’s cells for use as energy.
                     The problem with diabetes is that your body doesn’t produce enough insulin or doesn’t use it as well as it should. Consequently, too much blood sugar (glucose) stays in your bloodstream, which can cause serious health problems such as heart disease and vision loss, among others. 
                     </p>
-                <img id = "img_info" src="https://i.ibb.co/brfxVsT/Type-2-Diabetes-Mellitus.jpg" alt="Imagen_db">
+                <img id = "img_info" src="https://yourimageshare.com/ib/xQLRhk8Eey.jpg" alt="Imagen_db">
                 <p id= "pie_bc">Type 2 diabetes mellitus</p>
                 <p>The algorithms are trained on <a href="https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database">Pima Indians Diabetes Database</a> posted by UCI MACHINE LEARNING</p>
                 <p>The algorithm that showed better performance on this dataset was Logistic Regression</p>
@@ -385,14 +449,14 @@
               <div id = "hep_info" class="col-lg-6">
                 <p>Hepatitis is frequently caused by an inflammation of the liver, the principal cause of this disease are normally viruses but it can also be due to other factors such as other infections, heavy alcohol use, toxins, certain medications, and autoimmune disease. Hepatitis A and E are often caused by an ingestion of contaminated water or food, hepatitis B is caused by the contact of infected blood, and other bodily fluids through sex, sharing needles or other drug-injection equipment or from mother to baby at birth. Hepatitis C is a blood-borne virus that is largely spread by sharing needles or other drug injection equipment, and hepatitis D, which is transmitted through contact with infectious blood, occurs only among people with hepatitis B infection.
                 </p>
-                <img id = "img_info" src="https://i.ibb.co/m0KJvcJ/Alcoholic-hepatitis.jpg" alt="Imagen_hep">
+                <img id = "img_info" src="https://yourimageshare.com/ib/RVIwOn33LI.jpg" alt="Imagen_hep">
                 <p id="pie_bc">Microscopy of the liver showing fatty changes, necrosis, and Mallory's bodies.</p>
                 <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/46/hepatitis">Hepatitis Dataset</a> from the UCI Machine Learning repository.</p>
                 <p>The algorithm that showed better performance on this dataset was Logistic Regression</p>
                 </div>
               <div id = "par_info" class="col-lg-6">
                 <p>Parkinson's disease (PD) is a progressive neurological disorder that affects movement. It is caused by the degeneration of dopamine-producing neurons in a specific area of the brain. Some of the symptoms of PD include tremors, stiffness, and difficulty with balance and coordination. The disease is chronic, meaning it is ongoing and has no cure, but it can be managed with medication and other therapies. LDP stands for "Levodopa-Responsive Parkinsonism," which refers to a subtype of PD that responds well to treatment with the medication levodopa.</p>
-                <img id = "img_info" src="https://i.ibb.co/93fPjY0/1024px-PET-image.jpg" alt="Imagen_par">
+                <img id = "img_info" src="https://yourimageshare.com/ib/7KAah3P8MA.jpg" alt="Imagen_par">
                 <p id="pie_bc">Fluorodeoxyglucose (18F) positron emission tomography (FDG): warmer areas reflect increased glucose uptake; and may reveal impaired dopaminergic activity in the basal ganglia and facilitate diagnosis</p>
                 <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/174/parkinsons">Parkinson's Dataset</a> from the UCI Machine Learning repository.</p>
                 <p>The algorithm that showed better performance on this dataset was Gradient Boosted tree</p>
@@ -402,7 +466,7 @@
 
                     It is normally detected during a screening for an underlying disease. Some of the symptoms include: Abdominal discomfort or distention (enlargement), Weight loss, Jaundice (yellowing of the skin and whites of the eyes), Gastrointestinal hemorrhage (bleeding), Nausea or vomiting, Persistent itching and Fever.
                     </p>
-                <img id = "img_info" src="https://i.ibb.co/x3sVtqf/Hepatocellular-carcinoma-1.jpg" alt="Imagen_hcc">
+                <img id = "img_info" src="https://yourimageshare.com/ib/7PZX8h4Mjv.jpg" alt="Imagen_hcc">
                 <p id="pie_bc">Hepatocellular carcinoma in an individual who tested positive</p>
                 <p>The algorithms are trained on <a href="https://archive.ics.uci.edu/dataset/423/hcc+survival">HCC Survival Dataset</a> from the UCI Machine Learning repository.</p>
                 <p>The algorithm that showed better performance on this dataset was Gradient Boosted tree</p>
@@ -433,8 +497,14 @@
                 </div>
             </div>
         </div>
-        <h2 id="disease_selection1" class = "container text-center">This is the table you have to fill. In case of missing value, put a 0 instead. Only numeric values </h2>
+      <form id="myForm">
+        <h2 id="disease_selection1" class = "container text-center">This is the table you have to fill. Only numeric values </h2>
+        <div class="search-box" id="buscador">
+          <button class="btn-search"  type="button"><i class="fas fa-search"></i></button>
+          <input type="text" id = "buscador_general" class="input-search" placeholder="Type to Search...">
+        </div>
         <div id="tablaEnfermedad" class="container" name="tabla" style="overflow-x: auto;">
+              
                 <table id="tablaDatos">
                     <thead>
                         <tr class="tabla_bc">
@@ -451,15 +521,15 @@
                     </thead>
                     <tbody>
                         <tr class="tabla_bc_input">
-                            <td><input type="text" id="valor0" name="valor0"></td>
-                            <td><input type="text" id="valor1" name="valor1"></td>
-                            <td><input type="text" id="valor2" name="valor2"></td>
-                            <td><input type="text" id="valor3" name="valor3"></td>
-                            <td><input type="text" id="valor4" name="valor4"></td>
-                            <td><input type="text" id="valor5" name="valor5"></td>
-                            <td><input type="text" id="valor6" name="valor6"></td>
-                            <td><input type="text" id="valor7" name="valor7"></td>
-                            <td><input type="text" id="valor8" name="valor8"></td>
+                            <td><input type="text" id="valor_b0" name="valor_b0"></td>
+                            <td><input type="text" id="valor_b1" name="valor_b1"></td>
+                            <td><input type="text" id="valor_b2" name="valor_b2"></td>
+                            <td><input type="text" id="valor_b3" name="valor_b3"></td>
+                            <td><input type="text" id="valor_b4" name="valor_b4"></td>
+                            <td><input type="text" id="valor_b5" name="valor_b5"></td>
+                            <td><input type="text" id="valor_b6" name="valor_b6"></td>
+                            <td><input type="text" id="valor_b7" name="valor_b7"></td>
+                            <td><input type="text" id="valor_b8" name="valor_b8"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -478,14 +548,14 @@
                     </thead>
                     <tbody>
                         <tr class="tabla_bc_input">
-                            <td><input type="text" id="valor0" name="valor0_db"></td>
-                            <td><input type="text" id="valor1" name="valor1_db"></td>
-                            <td><input type="text" id="valor2" name="valor2_db"></td>
-                            <td><input type="text" id="valor3" name="valor3_db"></td>
-                            <td><input type="text" id="valor4" name="valor4_db"></td>
-                            <td><input type="text" id="valor5" name="valor5_db"></td>
-                            <td><input type="text" id="valor6" name="valor6_db"></td>
-                            <td><input type="text" id="valor7" name="valor7_db"></td>
+                            <td><input type="text" id="valor0" name="valor_db0"></td>
+                            <td><input type="text" id="valor1" name="valor_db1"></td>
+                            <td><input type="text" id="valor2" name="valor_db2"></td>
+                            <td><input type="text" id="valor3" name="valor_db3"></td>
+                            <td><input type="text" id="valor4" name="valor_db4"></td>
+                            <td><input type="text" id="valor5" name="valor_db5"></td>
+                            <td><input type="text" id="valor6" name="valor_db6"></td>
+                            <td><input type="text" id="valor7" name="valor_db7"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -705,6 +775,7 @@
       <div class="container text-center"> 
                 <button type="submit" onsubmit="guardarDatos(event)" class=" btn" id = "predict">Predict</button>
             </div>
+        </form>
     </form>
     <div class="container text-center">
         <button class=" btn btn-dark " onclick="limpiarValores()" id = "clean_tables">Clean tables</button>
@@ -716,25 +787,82 @@
         </p>
     </div>
     <script>
-        function guardarDatos(event) {
-                event.preventDefault(); // Evita que se envíe el formulario por defecto
+        $(document).ready(function () {
+            function filtrarColumnas() {
+                var input, filtro, tabla, th, i, txtValue;
+                input = document.getElementById("buscador_general");
+                filtro = input.value.toUpperCase();
 
-                limpiarDatosAnteriores(); // Limpiar los datos de la enfermedad anterior
+                // Filtra las columnas de todas las tablas
+                $("table").each(function () {
+                    tabla = $(this)[0];
+                    th = tabla.getElementsByTagName("th");
 
-                var formData = $('#myForm').serialize(); // Serializa los datos del formulario
+                    for (i = 0; i < th.length; i++) {
+                        txtValue = th[i].textContent || th[i].innerText;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/predict', // Ruta de la API Flask para guardar los datos
-                    data: formData,
-                    success: function(response) {
-                        console.log('Datos guardados exitosamente');
-                    },
-                    error: function(error) {
-                        console.error('Error al guardar los datos:', error);
+                        if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+                            // Si la columna coincide con la búsqueda, muestra la columna
+                            mostrarColumna(tabla, i);
+                        } else {
+                            // Si no coincide, oculta la columna
+                            ocultarColumna(tabla, i);
+                        }
                     }
                 });
             }
+
+            function mostrarColumna(tabla, index) {
+                $("tr", tabla).each(function () {
+                    var td = $(this).find("td:eq(" + index + ")");
+                    td.show();
+                });
+
+                $("th:eq(" + index + ")", tabla).show();
+            }
+
+            function ocultarColumna(tabla, index) {
+                $("tr", tabla).each(function () {
+                    var td = $(this).find("td:eq(" + index + ")");
+                    td.hide();
+                });
+
+                $("th:eq(" + index + ")", tabla).hide();
+            }
+
+            // Asigna eventos de cambio al campo de búsqueda
+            $("#buscador_general").on("input", function () {
+                filtrarColumnas();
+            });
+        });
+        function guardarDatos(event) {
+            event.preventDefault(); // Evita que se envíe el formulario por defecto
+
+            var formData = {}; // Objeto para almacenar los datos
+
+            // Encuentra la tabla actualmente visible
+            var tablaVisible = $('.tabla_bc_input:visible');
+
+            // Recorre los inputs de la tabla actual y reemplaza los valores vacíos por 0
+            tablaVisible.find('input').each(function() {
+                var fieldName = $(this).attr('name');
+                var fieldValue = $(this).val().trim() === '' ? '0' : $(this).val();
+                formData[fieldName] = fieldValue;
+            });
+
+            // Realiza la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/predict', // Ruta de la API Flask para guardar los datos
+                data: formData,
+                success: function(response) {
+                    console.log('Datos guardados exitosamente');
+                },
+                error: function(error) {
+                    console.error('Error al guardar los datos:', error);
+                }
+            });
+        }
         function mostrarTabla() {
                 var seleccion = document.getElementById("enfermedad").value;
                 var tabla = document.getElementById("tablaDatos");
@@ -855,26 +983,6 @@
                     info_par.style.display = "none";
                     info_hcc.style.display = "block";
                 }
-            }
-            function limpiarDatosAnteriores() {
-                var enfermedad = $('#enfermedad').val();
-                // Restablecer los campos de entrada a valores vacíos
-                if (enfermedad !== 'breast_cancer') {
-                    $('#tablaDatos').find('input[type="text"]').val('');
-                }
-                if (enfermedad !== 'diabetes') {
-                    $('#tablaDatosDiabetes').find('input[type="text"]').val('');
-                }
-                if (enfermedad !== 'hepatitis') {
-                    $('#tablaDatoshep').find('input[type="text"]').val('');
-                }
-                if (enfermedad !== 'parkinson') {
-                    $('#tablaDatospar').find('input[type="text"]').val('');
-                }
-                if (enfermedad !== 'HCC') {
-                    $('#tablaDatoshcc').find('input[type="text"]').val('');
-                }
-                // Añadir condiciones para otras enfermedades aquí si es necesario
             }
             function toggleInfo() {
                 var info2 = document.getElementById("info2");
