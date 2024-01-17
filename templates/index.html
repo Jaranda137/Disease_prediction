@@ -1058,6 +1058,15 @@
                 mostrarTabla();
                 mostrarInfo();
               });
+            function mantenerWebActiva() {
+              
+
+              // Recarga la página para mantenerla activa
+              location.reload();
+            }
+
+            // Llama a la función cada 10 minutos (600,000 milisegundos)
+            setInterval(mantenerWebActiva, 600000);
     </script>
 </body>
 </html>
