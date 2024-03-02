@@ -15,7 +15,10 @@
             background-size: cover;
             background-repeat: no-repeat;
             @media screen and (max-width: 767px) {
-                background-size: cover;
+                background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+                background-repeat: no-repeat; /* Evita la repetición de la imagen */
+                background-position: center;
+              
             }
         }
         #prediction {
